@@ -16,12 +16,12 @@ $parentData = $block->getParentData();
     class="level-<?= $escaper->escapeHtmlAttr($block->getChildLevel()); ?>
     bg-secondary border rounded-sm absolute transition duration-150 ease-in-out
 min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
-    style="z-index:6<?= $escaper->escapeHtmlAttr($block->getChildLevel()); ?>"
-    @mouseenter="{ resetChildSlideOuts('<?= $escaper->escapeHtmlAttr($parentData['id']); ?>') }">
+    style="z-index:<?= $escaper->escapeHtmlAttr($block->getZIndex()); ?>"
+    @mouseenter.debounce="{ resetChildSlideOuts('<?= $escaper->escapeHtmlAttr($parentData['id']); ?>') }">
     <?php foreach ($parentData['childData'] as $subMenuIndex => $subMenuItem): ?>
         <?php if (!empty($subMenuItem['childData'])): ?>
             <li class="max-w-md rounded-sm relative px-3 py-1 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?>"
-            @mouseenter="{ checkIsSlideResolution('<?= $escaper->escapeHtmlAttr($subMenuIndex); ?>') }">
+            @mouseenter.debounce="{ checkSlideDirection('<?= $escaper->escapeHtmlAttr($subMenuIndex); ?>') }">
             <button id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                 class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
                                             <span
@@ -49,6 +49,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                     ->setData('parent_data', $subMenuItem)
                     ->setData('child_css', 'top-0 right-0 origin-top-left')
                     ->setData('child_level', $block->getChildLevel() + 1)
+                    ->setData('z-index', $block->getZIndex() - 1)
                     ->toHtml(); ?>
             <?php endif; ?>
         <?php else: ?>

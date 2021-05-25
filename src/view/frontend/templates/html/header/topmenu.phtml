@@ -211,7 +211,7 @@ $menuItems = $viewModelNavigation->getNavigation(10);
 
     <!-- desktop -->
     <div x-ref="nav-desktop"
-         @load.window="menu.setActiveMenu($refs['nav-desktop']); console.log(menu.hoverPanelActiveId)"
+         @load.window="menu.setActiveMenu($refs['nav-desktop']);"
          class=" lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
         <nav class="nav-desktop flex">
             <?php foreach ($menuItems as $index => $menuItem): ?>
@@ -244,6 +244,7 @@ $menuItems = $viewModelNavigation->getNavigation(10);
                             ->setData('parent_data', $menuItem)
                             ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
                             ->setData('child_level', 1)
+                            ->setData('z_index', 50)
                             ->toHtml(); ?>
                     <?php endif; ?>
                 </div>
@@ -273,23 +274,27 @@ $menuItems = $viewModelNavigation->getNavigation(10);
         }
     }
 
-    function checkIsSlideResolution(elm) {
+    function checkSlideDirection(elm) {
         let domElm = document.getElementById('hover-' + elm);
         let UlElm = domElm.nextElementSibling;
         //calculate the element distance form right screen end
-        console.log((UlElm.getBoundingClientRect().right + UlElm.offsetWidth) + ' : ' + window.innerWidth)
-        if ((UlElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
-            UlElm.classList.remove('slide-to-right');
-            UlElm.classList.add('slide-to-left')
-            return;
-        }
-        UlElm.classList.remove('slide-to-left');
-        UlElm.classList.add('slide-to-right')
+        return new Promise((resolve, reject) => {
+            UlElm.classList.remove('slide-to-left');
+            UlElm.classList.add('slide-to-right')
+            return resolve();
+        })
+            .then(() => {
+                //console.log(UlElm.offsetWidth + ':' + domElm.getBoundingClientRect().right + ':' + (domElm.getBoundingClientRect().right + UlElm.offsetWidth) + ' : ' + window.innerWidth)
+                if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
+                    UlElm.style.zIndex = -1;
+                    UlElm.classList.remove('slide-to-right');
+                    UlElm.classList.add('slide-to-left')
+                }
+            });
     }
 
     function resetChildSlideOuts(elm) {
         let domElm = document.getElementById('parent-' + elm);
-        console.log('clearing children for ' + elm);
         domElm.querySelectorAll('.slide-to-left').forEach(el => { el.classList.add('slide-to-right'); el.classList.remove('slide-to-left') });
 
     }
