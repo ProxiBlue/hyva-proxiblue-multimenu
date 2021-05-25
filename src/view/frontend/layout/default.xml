@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="header-content">
+            <referenceBlock name="topmenu_generic" remove="true"/>
+            <block class="Magento\Theme\Block\Html\Topmenu"
+                   name="topmenu_multimenu"
+                   as="topmenu"
+                   template="ProxiBlue_MultiMenu::html/header/topmenu.phtml" ttl="3600">
+                <block name="topmenu_multimenu_chidlitems"
+                       as="topmenu.childitems"
+                       template="ProxiBlue_MultiMenu::html/header/topmenu/childitems.phtml" ttl="3600"/>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
