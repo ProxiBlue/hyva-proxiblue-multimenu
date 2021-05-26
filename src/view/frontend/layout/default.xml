@@ -1,6 +1,19 @@
 <?xml version="1.0"?>
+
+<!--
+/**
+ * (c) Lucas van Staden <sales@proxiblue.com.au>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+-->
+
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="ProxiBlue_MultiMenu::css/menu.css" defer="defer"/>
+    </head>
     <body>
         <referenceBlock name="header-content">
             <referenceBlock name="topmenu_generic" remove="true"/>

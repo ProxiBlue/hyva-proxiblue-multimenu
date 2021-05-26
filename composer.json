@@ -1,20 +1,24 @@
 {
-  "name": "proxi-blue/multi-menu",
-  "version": "1.0.0",
-  "description": "MultiDimensional category Menu for Magento 2 Hyva Theme based build",
-  "type": "magento2-module",
-  "require": {
-    "magento/framework": "*"
-  },
-  "license": [
-    "Open Software License (OSL)"
-  ],
-  "autoload": {
-    "files": [
-      "src/registration.php"
+    "name": "proxi-blue/multi-menu",
+    "version": "1.0.0",
+    "description": "MultiDepth Category Menu for Magento 2 compatible with Hyva Theme",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lucas van Staden",
+            "email": "sales@proxiblue.com.au"
+        }
     ],
-    "psr-4": {
-      "ProxiBlue\\MultiMenu\\": "src/"
+    "autoload": {
+        "files": [
+            "src/registration.php"
+        ],
+        "psr-4": {
+            "ProxiBlue\\MultiMenu\\": "src/"
+        }
     }
-  }
 }

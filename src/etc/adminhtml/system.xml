@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * (c) Lucas van Staden <sales@proxiblue.com.au>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="proxiblue_multimenu" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <class>separator-top</class>
+            <label>MultiMenu</label>
+            <tab>general</tab>
+            <resource>ProxiBlue_MultiMenu::multimenu_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General Configuration</label>
+                <field id="depth" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Category Depth</label>
+                    <comment>Levels of Sub Menus based on category depth</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
+

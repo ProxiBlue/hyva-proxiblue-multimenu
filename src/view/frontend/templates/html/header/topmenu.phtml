@@ -1,10 +1,14 @@
 <?php
-/**
- * Hyvä Themes - https://hyva.io
- * Copyright © Hyvä Themes 2020-present. All rights reserved.
- * This product is licensed per Magento install
- * See https://hyva.io/license
+/*
+ * (c) Lucas van Staden <sales@proxiblue.com.au>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * The base menu dropdown was based on https://tailwindcomponents.com/component/nestable-dropdown-menu
+ *
  */
+
 
 use Hyva\Theme\Model\ViewModelRegistry;
 use ProxiBlue\MultiMenu\ViewModel\Navigation;
@@ -17,12 +21,12 @@ use Magento\Framework\View\Element\Template;
 
 /** @var Navigation $viewModelNavigation */
 $viewModelNavigation = $viewModels->require(Navigation::class);
-$menuItems = $viewModelNavigation->getNavigation(10);
+$menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCategoryDepth());
 
 ?>
 <div class="z-40 order-2 sm:order-1 lg:order-2 navigation">
     <!-- mobile -->
-    <div x-ref="nav-mobile"
+    <div x-ref="nav-mobile" data-navtype="nav-mobile"
          @load.window="menu.setActiveMenu($refs['nav-mobile'])"
          class="bg-secondary lg:hidden w-12"
          :class="{'min-h-screen fixed top-0 left-0 w-full' : menu.open}"
@@ -210,7 +214,7 @@ $menuItems = $viewModelNavigation->getNavigation(10);
     </div>
 
     <!-- desktop -->
-    <div x-ref="nav-desktop"
+    <div x-ref="nav-desktop" data-navtype="nav-desktop"
          @load.window="menu.setActiveMenu($refs['nav-desktop']);"
          class=" lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
         <nav class="nav-desktop flex">
@@ -244,7 +248,6 @@ $menuItems = $viewModelNavigation->getNavigation(10);
                             ->setData('parent_data', $menuItem)
                             ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
                             ->setData('child_level', 1)
-                            ->setData('z_index', 50)
                             ->toHtml(); ?>
                     <?php endif; ?>
                 </div>
@@ -260,8 +263,9 @@ $menuItems = $viewModelNavigation->getNavigation(10);
     const initHeaderNavigation = () => {
         return {
             mobilePanelActiveId: null,
-            hoverPanelActiveId: null,
             open: false,
+            slideToLeft: false,
+            activeMenu: 'nav-desktop',
             setActiveMenu(menuNode) {
                 Array.from(menuNode.querySelectorAll('a')).filter(link => {
                     return link.href === window.location.href.split('?')[0];
@@ -270,33 +274,33 @@ $menuItems = $viewModelNavigation->getNavigation(10);
                     item.closest('div.level-0') &&
                     item.closest('div.level-0').querySelector('a.level-0').classList.add('underline');
                 });
+                this.activeMenu = menuNode.dataset.navtype;
+            },
+            checkSlideDirection(event) {
+                if (this.activeMenu == 'nav-desktop') {
+                    let domElm = event.target
+                    if (domElm.nextElementSibling) {
+                        let UlElm = domElm.nextElementSibling;
+                        return new Promise((resolve, reject) => {
+                            UlElm.classList.remove('slide-to-left');
+                            UlElm.classList.remove('slide-to-right')
+                            return resolve();
+                        })
+                            .then(() => {
+                                if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
+                                    UlElm.style.zIndex = -1;
+                                    UlElm.classList.add('slide-to-left')
+                                    this.slideToLeft = true;
+                                } else {
+                                    UlElm.classList.add('slide-to-right');
+                                    this.slideToLeft = false;
+                                }
+                            });
+
+                    }
+                }
             }
         }
-    }
-
-    function checkSlideDirection(elm) {
-        let domElm = document.getElementById('hover-' + elm);
-        let UlElm = domElm.nextElementSibling;
-        //calculate the element distance form right screen end
-        return new Promise((resolve, reject) => {
-            UlElm.classList.remove('slide-to-left');
-            UlElm.classList.add('slide-to-right')
-            return resolve();
-        })
-            .then(() => {
-                //console.log(UlElm.offsetWidth + ':' + domElm.getBoundingClientRect().right + ':' + (domElm.getBoundingClientRect().right + UlElm.offsetWidth) + ' : ' + window.innerWidth)
-                if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
-                    UlElm.style.zIndex = -1;
-                    UlElm.classList.remove('slide-to-right');
-                    UlElm.classList.add('slide-to-left')
-                }
-            });
-    }
-
-    function resetChildSlideOuts(elm) {
-        let domElm = document.getElementById('parent-' + elm);
-        domElm.querySelectorAll('.slide-to-left').forEach(el => { el.classList.add('slide-to-right'); el.classList.remove('slide-to-left') });
-
     }
 
     function swapCssClass(elm) {
