@@ -68,9 +68,11 @@ use Magento\Framework\View\Element\Template;
 
 Well, it's a hover dropdown menu. Simply hover over memnu items, and the child items will be shown. 
 
+![image](https://user-images.githubusercontent.com/4994260/119622514-ce63ea80-be39-11eb-87e6-be8f6efb2455.png)
+
 To note is that the menu will detect the screen width end, and if any slide out items will breach teh screen edge, they will be pulled to the left.
 
-
+![image](https://user-images.githubusercontent.com/4994260/119622688-f6534e00-be39-11eb-9f7c-d69538733cae.png)
 
 ## Credits
 
