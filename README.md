@@ -72,7 +72,7 @@ Well, it's a hover dropdown menu. Simply hover over memnu items, and the child i
 
 To note is that the menu will detect the screen width end, and if any slide out items will breach teh screen edge, they will be pulled to the left.
 
-![image](https://user-images.githubusercontent.com/4994260/119622688-f6534e00-be39-11eb-9f7c-d69538733cae.png)
+![image](https://user-images.githubusercontent.com/4994260/119622849-24d12900-be3a-11eb-8c28-5b2971edf50f.png)
 
 ## Credits
 
