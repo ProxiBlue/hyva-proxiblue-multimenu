@@ -54,7 +54,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                     <?php endif; ?>
                 </button>
                 <?php if (!empty($subMenuItem['childData'])): ?>
-                    <?= $block->getLayout()->getBlock('topmenu_multimenu_chidlitems')
+                    <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop_childitems')
                         ->setData('parent_data', $subMenuItem)
                         ->setData('child_css', 'top-0 right-0 origin-top-left')
                         ->setData('child_level', $block->getChildLevel() + 1)
