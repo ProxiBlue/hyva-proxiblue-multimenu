@@ -5,7 +5,7 @@
 ## Introduction
 
 The default Hyva menu if a flat 1 level category menu. I needed a multiple depth menu for a site build.
-This is teh end result.
+This is the end result.
 
 ## Install
 
@@ -70,7 +70,7 @@ Well, it's a hover dropdown menu. Simply hover over memnu items, and the child i
 
 ![image](https://user-images.githubusercontent.com/4994260/119622514-ce63ea80-be39-11eb-87e6-be8f6efb2455.png)
 
-To note is that the menu will detect the screen width end, and if any slide out items will breach teh screen edge, they will be pulled to the left.
+To note is that the menu will detect the screen width end, and if any slide out items will breach the screen edge, they will be pulled to the left.
 
 ![image](https://user-images.githubusercontent.com/4994260/119622849-24d12900-be3a-11eb-8c28-5b2971edf50f.png)
 
