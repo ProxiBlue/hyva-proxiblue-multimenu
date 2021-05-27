@@ -60,27 +60,25 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
                 this.activeMenu = menuNode.dataset.navtype;
             },
             checkSlideDirection(event) {
-                if (this.activeMenu == 'nav-desktop') {
-                    let domElm = event.target
-                    if (domElm.nextElementSibling) {
-                        let UlElm = domElm.nextElementSibling;
-                        return new Promise((resolve, reject) => {
-                            UlElm.classList.remove('slide-to-left');
-                            UlElm.classList.remove('slide-to-right')
-                            return resolve();
-                        })
-                            .then(() => {
-                                if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
-                                    UlElm.style.zIndex = -1;
-                                    UlElm.classList.add('slide-to-left')
-                                    this.slideToLeft = true;
-                                } else {
-                                    UlElm.classList.add('slide-to-right');
-                                    this.slideToLeft = false;
-                                }
-                            });
+                let domElm = event.target
+                if (domElm.nextElementSibling) {
+                    let UlElm = domElm.nextElementSibling;
+                    return new Promise((resolve, reject) => {
+                        UlElm.classList.remove('slide-to-left');
+                        UlElm.classList.remove('slide-to-right')
+                        return resolve();
+                    })
+                        .then(() => {
+                            if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
+                                UlElm.style.zIndex = -1;
+                                UlElm.classList.add('slide-to-left')
+                                this.slideToLeft = true;
+                            } else {
+                                UlElm.classList.add('slide-to-right');
+                                this.slideToLeft = false;
+                            }
+                        });
 
-                    }
                 }
             },
             handleMobileOpenMenu(event) {

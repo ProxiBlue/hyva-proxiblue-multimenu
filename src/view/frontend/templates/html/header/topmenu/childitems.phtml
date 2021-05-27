@@ -30,11 +30,11 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
     <?php foreach ($parentData['childData'] as $subMenuIndex => $subMenuItem): ?>
         <?php if (!empty($subMenuItem['childData'])): ?>
             <!-- This is the container for x-data -->
-            <li class="rounded-sm relative px-3 py-1 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?>">
+            <li class="rounded-sm relative px-3 lg:px-2 py-1 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?>">
                 <button @mouseenter.debounce="{ menu.checkSlideDirection($event) }"
                         id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                         class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
-                    <span>
+                    <span class="lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mr-1 mb-1" viewBox="0 0 20 20"
                              fill="currentColor">
                     <path fill-rule="evenodd"
@@ -75,7 +75,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
             </li>
         <?php else: ?>
             <li class="h-10 rounded-sm px-0 py-1 px-3 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
-                <span>
+                <span class="lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mr-1 mb-1 inline" viewBox="0 0 20 20"
                              fill="currentColor">
                     <path fill-rule="evenodd"
