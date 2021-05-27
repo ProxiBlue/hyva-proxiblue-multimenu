@@ -12,8 +12,12 @@ You can install via composer:
 
 * run: ```composer config repositories.github.repo.repman.io composer https://github.repo.repman.io```
 * use composer ```composer require proxi-blue/multi-menu```
+* enable: ```./bin/magento module:enable ProxiBlue_MultiMenu```
+* run: ```./bin/magento setup:upgrade```
+* run: ```./bin/magento setup:di:compile```
 
-## Setup
+
+## Configuration
 
 In admin, 
 
