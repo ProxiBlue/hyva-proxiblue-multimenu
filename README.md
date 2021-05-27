@@ -33,7 +33,7 @@ You can set if the category image should be set as an icon to the left of menu i
 
 Generally this can be used to hide a catgeory at certain screen breakpoints for responsive customization
 
-## Adding additional menu items (that is not categories)
+## Adding additional menu items (that are not categories)
 
 You may want to add top level menu items, like example 'Contact Us'
 You can add this by layout xml update in your theme ```default.xml``` layout file. Reference the block name ```topmenu_multimenu_additional```
