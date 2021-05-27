@@ -10,17 +10,8 @@ This is the end result.
 
 You can install via composer:
 
-* first add my public github repository repo manager url to your composer.json
-
-```
-{
-    "repositories": [
-        {"type": "composer", "url": "https://github.repo.repman.io"}
-    ]
-}
-```
-
-* install using ```composer require proxi-blue/multi-menu```
+* run: ```composer config repositories.github.repo.repman.io composer https://github.repo.repman.io```
+* use composer ```composer require proxi-blue/multi-menu```
 
 ## Setup
 
