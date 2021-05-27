@@ -33,7 +33,7 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
 
     <!-- desktop -->
     <div x-ref="nav-desktop" data-navtype="nav-desktop"
-         class=" lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0 text-white bg-secondary">
+         class=" lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
         <nav id="nav-desktop-container" class="nav-desktop flex">
             <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
                 ->setData('menu_items', $menuItems)

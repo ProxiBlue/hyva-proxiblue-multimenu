@@ -26,7 +26,7 @@ $image = $viewModels->require(Image::class);
 ?>
 <ul id="parent-<?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     class="level-<?= $escaper->escapeHtmlAttr($block->getChildLevel()); ?>
-    bg-secondary border rounded-sm absolute transition duration-150 ease-in-out
+    bg-white border rounded-sm absolute transition duration-150 ease-in-out
 min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     style="z-index:0"
 >
@@ -87,7 +87,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                 <?php endif; ?>
             </li>
         <?php else: ?>
-            <li class="pr-10 rounded-sm px-3 <?php if ($block->getShowIcons()): ?> lg:pl-2 <?php else: ?> lg:pl-3  <?php endif; ?> pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?> whitespace-nowrap">
+            <li class="pr-10 rounded-sm px-3 <?php if ($block->getShowIcons()): ?> lg:pl-2 <?php else: ?> lg:pl-3  <?php endif; ?> pb-2 <?= $escaper->escapeHtmlAttr($subMenuIndex) ?> whitespace-nowrap">
                 <span class="lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mb-1 inline"
                              viewBox="0 0 20 20"

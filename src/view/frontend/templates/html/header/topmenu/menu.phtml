@@ -25,7 +25,7 @@ $menuItems = $block->getMenuItems();
             @click="menu.hoverPanelActiveId = '<?= /* @noEscape */
             (string)$index ?>'"
             class="uppercase border-none bg-transparent outline-none focus:outline-none border px-3 py-1 h-10 rounded-sm flex items-center min-w-32 hover:bg-secondary-darker"
-            :class="{ 'bg-secondary-darker' : '<?= $menuItem['has_active'] ?>' }">
+            >
                         <span class="pr-1 font-normal flex-1">
                                 <a href="<?= $escaper->escapeHtmlAttr($menuItem['url']) ?>"
                                    title="Click to view all <?= $escaper->escapeHtmlAttr($menuItem['name']) ?>"

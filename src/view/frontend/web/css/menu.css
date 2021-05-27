@@ -48,15 +48,8 @@
 }
 
 .page-header .nav-mobile li, .page-header .nav-mobile button {
-    --tw-bg-opacity: 1;
-    background-color: rgba(41, 37, 36, var(--tw-bg-opacity));
     text-align: left;
     width: 100%;
-}
-
-.page-header .nav-mobile li :hover, .page-header .nav-mobile button :hover {
-    --tw-bg-opacity: 1;
-    background-color: rgba(41, 37, 36, var(--tw-bg-opacity));
 }
 
 .page-header .nav-mobile svg.control {
@@ -82,11 +75,6 @@
 
 .page-header .nav-mobile ul.open-down > li {
     transform: scale(1);
-}
-
-.page-header .nav-mobile .group > button {
-    --tw-bg-opacity: 1;
-    background-color: rgba(28, 25, 23, var(--tw-bg-opacity));
 }
 
 .page-header .nav-mobile .sub-indicator {

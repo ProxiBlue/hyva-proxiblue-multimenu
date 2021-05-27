@@ -18,7 +18,7 @@ use Magento\Framework\View\Element\Template;
 ?>
 <div x-ref="nav-mobile" data-navtype="nav-mobile"
      @load.window="menu.setActiveMenu($refs['nav-mobile'])"
-     class="bg-primary lg:hidden"
+     class="bg-container-lighter lg:hidden"
      :class="{'min-h-screen fixed top-0 left-0 w-full' : menu.open}"
      @toggle-mobile-menu.window="menu.open = !menu.open;"
      @keydown.window.escape="menu.open=false"
@@ -53,7 +53,7 @@ use Magento\Framework\View\Element\Template;
 
     <nav id="nav-mobile-container"
         class="nav-mobile hidden w-full duration-150 ease-in-out transform border-t transition-display
-        border-container bg-secondary h-screen overflow-y-auto pb-20"
+        border-container h-screen overflow-y-auto pb-20"
         :class="{ 'hidden' : !menu.open }">
         <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
             ->setData('menu_items', $block->getMenuItems())
