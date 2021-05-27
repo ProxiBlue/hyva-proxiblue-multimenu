@@ -1,16 +1,17 @@
 .page-header .nav-desktop li > ul {
-    transform: translatex(100%) scale(0)
+    transform: translatex(100%) scale(0);
+    min-width: 400px;
 }
 
 .page-header .nav-desktop li:hover > ul.slide-to-right {
     transform: translatex(100%) scale(1);
+    background: green;
 }
 
 .page-header .nav-desktop li:hover > ul.slide-to-left {
     transform: scale(1);
-    left: -350px;
+    left: -400px;
     z-index: 60;
-    max-width: 350px;
 }
 
 .page-header .nav-desktop li > button svg {
@@ -35,5 +36,63 @@
 
 .page-header .nav-desktop .min-w-32 {
     min-width: 8rem
+}
+
+.page-header .nav-mobile ul, .page-header .nav-mobile li {
+    padding-right: 0px;
+    width: 100%;
+    transform: scale(0);
+}
+
+.page-header .nav-mobile button {
+    padding-right: 0.75rem;
+}
+
+.page-header .nav-mobile li, .page-header .nav-mobile button {
+    --tw-bg-opacity: 1;
+    background-color: rgba(41, 37, 36, var(--tw-bg-opacity));
+    text-align: left;
+    width: 100%;
+}
+
+.page-header .nav-mobile li :hover, .page-header .nav-mobile button :hover {
+    --tw-bg-opacity: 1;
+    background-color: rgba(41, 37, 36, var(--tw-bg-opacity));
+}
+
+.page-header .nav-mobile svg.control {
+    border-width: 1px;
+    height: 2.25rem;
+    width: 2rem;
+}
+
+.page-header .nav-mobile button svg.control {
+    transform: rotate(-90deg);
+}
+
+.page-header .nav-mobile button.menu-active svg.control {
+    transform: rotate(0deg);
+}
+
+.page-header .nav-mobile ul.open-down {
+    transform: scale(1);
+    border-style: none;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.page-header .nav-mobile ul.open-down > li {
+    transform: scale(1);
+}
+
+.page-header .nav-mobile .group > button {
+    --tw-bg-opacity: 1;
+    background-color: rgba(28, 25, 23, var(--tw-bg-opacity));
+}
+
+.page-header .nav-mobile .sub-indicator {
+    border-style: none;
+    display: inline;
+    transform: rotate(0deg);
 }
 

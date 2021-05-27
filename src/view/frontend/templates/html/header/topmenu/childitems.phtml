@@ -27,13 +27,13 @@ $image = $viewModels->require(Image::class);
 <ul id="parent-<?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     class="level-<?= $escaper->escapeHtmlAttr($block->getChildLevel()); ?>
     bg-secondary border rounded-sm absolute transition duration-150 ease-in-out
-min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
+min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     style="z-index:0"
 >
     <?php foreach ($parentData['childData'] as $subMenuIndex => $subMenuItem): ?>
         <?php if (!empty($subMenuItem['childData'])): ?>
             <!-- This is the container for x-data -->
-            <li class="rounded-sm relative px-3 lg:px-2 py-1 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?>">
+            <li class="rounded-sm relative px-3 pr-10 lg:px-2 py-1 pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?> whitespace-nowrap">
                 <button @mouseenter.debounce="{ menu.checkSlideDirection($event) }"
                         id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                         class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
@@ -60,7 +60,10 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                                                     <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
                                                        title="Click to view all <?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
                                                        class="block w-full whitespace-nowrap first:mt-0 hover:underline">
-                                                <?= $escaper->escapeHtml(trim($subMenuItem['name'])) ?>
+                                                <?= $escaper->escapeHtml(substr(trim($subMenuItem['name']), 0, 30)) ?>
+                                                        <?php if (strlen($subMenuItem['name']) > 30): ?>
+                                                            ...
+                                                        <?php endif; ?>
                                                     </a>
                                             </span>
                     <?php if (!empty($subMenuItem['childData'])): ?>
@@ -84,7 +87,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                 <?php endif; ?>
             </li>
         <?php else: ?>
-            <li class="h-10 rounded-sm px-0 py-1 px-3 lg:px-2 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
+            <li class="pr-10 rounded-sm px-3 lg:pl-2 pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?> whitespace-nowrap">
                 <span class="lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mb-1 inline"
                              viewBox="0 0 20 20"
