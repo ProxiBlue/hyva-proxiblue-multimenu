@@ -87,7 +87,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                 <?php endif; ?>
             </li>
         <?php else: ?>
-            <li class="pr-10 rounded-sm px-3 lg:pl-2 pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?> whitespace-nowrap">
+            <li class="pr-10 rounded-sm px-3 <?php if ($block->getShowIcons()): ?> lg:pl-2 <?php else: ?> lg:pl-3  <?php endif; ?> pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?> whitespace-nowrap">
                 <span class="lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mb-1 inline"
                              viewBox="0 0 20 20"
@@ -104,7 +104,6 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                     <img loading="lazy" width="20" height="20" class="inline pl-0"
                          src="<?php echo $image->resize($subMenuItem['image'], 20); ?>"
                          alt="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"/>
-                    <?php $b = 1; ?>
                 <?php endif; ?>
                 <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
                    title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"

@@ -5,7 +5,6 @@
 
 .page-header .nav-desktop li:hover > ul.slide-to-right {
     transform: translatex(100%) scale(1);
-    background: green;
 }
 
 .page-header .nav-desktop li:hover > ul.slide-to-left {
