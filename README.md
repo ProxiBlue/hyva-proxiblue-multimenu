@@ -78,7 +78,7 @@ Mobile view with Category Icons enabled
 
 ## Notes
 
-I am not a master and frontend. Much can likely be improved.
+I am not a master on frontend. Much can likely be improved.
 
 This is not pure alpineJS. There is a portion of vanilla JS involved. SOme can likely be refactored to be more pure Alpine, 
 but I am still learning and don't know all the moving parts for alpine, as yet.
