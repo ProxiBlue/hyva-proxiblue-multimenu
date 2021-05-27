@@ -25,9 +25,13 @@ You can install via composer:
 
 ## Setup
 
-In admin, Stores->Configuration->General->MultiMenu you can set the Category Depth.
+In admin, 
+
+* Stores->Configuration->General->MultiMenu you can set the Category Depth.
 
 This will determine how many levels of pullouts are displayed
+
+* Stores->Configuration->General->Category Images you can set if teh category image should be set as an icon to the right
 
 ## Adding additional menu items (that is not categories)
 
@@ -74,7 +78,13 @@ To note is that the menu will detect the screen width end, and if any slide out 
 
 ![image](https://user-images.githubusercontent.com/4994260/119622849-24d12900-be3a-11eb-8c28-5b2971edf50f.png)
 
+Mobile view with Category Icons enabled
+
+![image](https://user-images.githubusercontent.com/4994260/119846015-57634a80-bf3c-11eb-809b-42bf56f8395d.png)
+
 ## Notes
+
+I am not a master and frontend. Much can likely be improved.
 
 This is not pure alpineJS. There is a portion of vanilla JS involved. SOme can likely be refactored to be more pure Alpine, 
 but I am still learning and don't know all the moving parts for alpine, as yet.
