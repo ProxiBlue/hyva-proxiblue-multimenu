@@ -74,6 +74,16 @@ To note is that the menu will detect the screen width end, and if any slide out 
 
 ![image](https://user-images.githubusercontent.com/4994260/119622849-24d12900-be3a-11eb-8c28-5b2971edf50f.png)
 
+## Notes
+
+This is not pure alpineJS. There is a portion of vanilla JS involved. SOme can likely be refactored to be more pure Alpine, 
+but I am still learning and don't know all the moving parts for alpine, as yet.
+As my knowledge progress I plan to refactor parts.
+
+Feel free to contribute with PR's, as I can also learn from this, from you.
+
+I needed this working for a client build, so it is AS IS.
+
 ## Credits
 
 The original tailwind css based menu dropdown was based on https://tailwindcomponents.com/component/nestable-dropdown-menu

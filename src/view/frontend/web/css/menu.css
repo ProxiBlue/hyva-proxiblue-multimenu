@@ -36,3 +36,58 @@
 .page-header .nav-desktop .min-w-32 {
     min-width: 8rem
 }
+
+.page-header .nav-mobile ul, .page-header .nav-mobile li {
+    padding-right: 0px;
+    width: 100%;
+    transform: scale(0);
+}
+
+.page-header .nav-mobile button {
+    padding-right: 0.75rem;
+}
+
+.page-header .nav-mobile li, .page-header .nav-mobile button {
+    --tw-bg-opacity: 1;
+    background-color: rgba(41, 37, 36, var(--tw-bg-opacity));
+    text-align: left;
+    width: 100%;
+}
+
+.page-header .nav-mobile li :hover, .page-header .nav-mobile button :hover {
+    --tw-bg-opacity: 1;
+    background-color: rgba(41, 37, 36, var(--tw-bg-opacity));
+}
+
+.page-header .nav-mobile svg {
+    border-width: 1px;
+    height: 2rem;
+    width: 2rem;
+}
+
+.page-header .nav-mobile button svg {
+    transform: rotate(-90deg);
+}
+
+.page-header .nav-mobile button.menu-active svg {
+    transform: rotate(0deg);
+}
+
+.page-header .nav-mobile ul.open-down {
+    transform: scale(1);
+    border-style: none;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.page-header .nav-mobile ul.open-down > li {
+    transform: scale(1);
+}
+
+.page-header .nav-mobile ul.open-down > li:after {
+}
+
+.page-header .nav-mobile .group > button {
+    --tw-bg-opacity: 1;
+    background-color: rgba(28, 25, 23, var(--tw-bg-opacity));
+}

@@ -31,9 +31,14 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
         ->toHtml(); ?>
 
     <!-- desktop -->
-    <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
-        ->setData('menu_items', $menuItems)
-        ->toHtml(); ?>
+    <div x-ref="nav-desktop" data-navtype="nav-desktop"
+         class=" lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0 text-white bg-secondary">
+        <nav id="nav-desktop-container" class="nav-desktop flex">
+            <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
+                ->setData('menu_items', $menuItems)
+                ->toHtml(); ?>
+        </nav>
+    </div>
 
 </div>
 <script>
@@ -41,7 +46,6 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
 
     const initHeaderNavigation = () => {
         return {
-            mobilePanelActiveId: null,
             open: false,
             slideToLeft: false,
             activeMenu: 'nav-desktop',
@@ -78,37 +82,57 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
 
                     }
                 }
+            },
+            handleMobileOpenMenu(event) {
+                if (event.target.localName == 'svg') {
+                    var domElm = event.target.parentElement.parentElement;
+                } else {
+                    var domElm = event.target.parentElement.parentElement.parentElement;
+                }
+                if (domElm.nextElementSibling) {
+                    let UlElm = domElm.nextElementSibling;
+                    let parent = domElm.offsetParent
+                    if (parent.classList.contains('menu-active')) {
+                        parent.classList.remove('menu-active');
+                        domElm.classList.remove('menu-active');
+                        UlElm.classList.remove('open-down');
+                    } else {
+                        parent.classList.add('menu-active');
+                        domElm.classList.add('menu-active');
+                        UlElm.classList.add('open-down');
+                    }
+
+                }
+
+            },
+            moveMenuInDom() {
+                if (this.open === true) {
+                    console.log('move menu to mobile');
+                    var mobileNavElm = document.getElementById('nav-mobile-container');
+                    if (mobileNavElm.innerHTML.trim() == '') {
+                        let srcElm = document.getElementById('nav-desktop-container');
+                        return new Promise((resolve, reject) => {
+                            console.log('move')
+                            mobileNavElm.append(...srcElm.childNodes);
+                            return resolve();
+                        })
+                            .then(() => {
+                                console.log('alpine')
+                                Alpine.discoverUninitializedComponents(function (el) {
+                                    console.log(el);
+                                    Alpine.initializeComponent(el)
+                                })
+                            });
+                    }
+                } else {
+                    console.log('move menu to desktop');
+                    var navElm = document.getElementById('nav-desktop-container');
+                    if (navElm.innerHTML.trim() == '') {
+                        let srcElm = document.getElementById('nav-mobile-container');
+                        navElm.appendChild(srcElm);
+                    }
+                }
             }
         }
-    }
-
-    function swapCssClass(elm) {
-        let domElm = document.getElementById('menu_item_' + elm + '_container');
-        domElm.classList.remove('translate-x-0');
-        domElm.classList.add('translate-x-full');
-        domElm = document.getElementById('menu_item_' + elm + '_children');
-        domElm.classList.add('translate-x-0');
-        domElm.classList.remove('translate-x-full');
-    }
-
-    function swapCssClassBack(elm) {
-        let domElm = document.getElementById('menu_item_' + elm + '_container');
-        domElm.classList.add('translate-x-0');
-        domElm.classList.remove('translate-x-full');
-        domElm = document.getElementById('menu_item_' + elm + '_children');
-        domElm.classList.remove('translate-x-0');
-        domElm.classList.add('translate-x-full');
-    }
-
-    function swapCssClassIn(elm) {
-        let domElm = document.getElementById('menu_item_' + elm);
-        domElm.classList.add('translate-x-0');
-        domElm.classList.remove('translate-x-full');
-    }
-
-    function swapCssClassOut(elm) {
-        let domElm = document.getElementById('menu_item_' + elm);
-        domElm.classList.remove('translate-x-0');
-        domElm.classList.add('translate-x-full');
     }
 </script>

@@ -1,0 +1,40 @@
+.page-header {
+    .nav-mobile {
+        ul, li {
+            @apply w-full pr-0;
+            transform: scale(0);
+        }
+        button {
+            @apply pr-3;
+        }
+        li, button {
+            @apply w-full text-left bg-secondary;
+            :hover {
+                @apply bg-secondary;
+            }
+
+        }
+        svg {
+            @apply border w-8 h-8;
+        }
+        button svg {
+            transform: rotate(-90deg);
+        }
+        button.menu-active svg {
+            transform: rotate(0deg);
+        }
+        ul.open-down {
+            transform: scale(1);
+            @apply relative border-none mb-2;
+        }
+        ul.open-down > li {
+            transform: scale(1);
+            &:after {
+
+            }
+        }
+        .group > button {
+            @apply bg-secondary-darker;
+        }
+    }
+}

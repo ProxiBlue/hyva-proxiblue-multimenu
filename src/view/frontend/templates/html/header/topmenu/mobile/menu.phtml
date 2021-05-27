@@ -5,6 +5,8 @@
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  *
+ * The base menu dropdown was based on https://tailwindcomponents.com/component/nestable-dropdown-menu
+ *
  */
 
 use Magento\Framework\Escaper;
@@ -13,20 +15,17 @@ use Magento\Framework\View\Element\Template;
 /** @var Template $block */
 /** @var Escaper $escaper */
 
-$menuItems = $block->getMenuItems();
-
 ?>
-
 <div x-ref="nav-mobile" data-navtype="nav-mobile"
      @load.window="menu.setActiveMenu($refs['nav-mobile'])"
-     class="bg-secondary lg:hidden w-12"
+     class="bg-container-lighter lg:hidden"
      :class="{'min-h-screen fixed top-0 left-0 w-full' : menu.open}"
-     @toggle-mobile-menu.window="menu.open = !menu.open"
+     @toggle-mobile-menu.window="menu.open = !menu.open;"
      @keydown.window.escape="menu.open=false"
 >
-    <div class="bg-primary flex items-baseline justify-between menu-icon">
+    <div class="flex items-baseline justify-between menu-icon bg-primary">
         <div class="flex justify-end w-full">
-            <a @click="$dispatch('toggle-mobile-menu')"
+            <a @click="$dispatch('toggle-mobile-menu');"
                class="flex items-center justify-center cursor-pointer"
                :class="{ 'ml-auto': menu.open }">
                 <svg class="hidden w-16 h-16 p-4 fill-current"
@@ -52,154 +51,14 @@ $menuItems = $block->getMenuItems();
         </div>
     </div>
 
-    <nav
-        class="z-40 hidden w-full duration-150 ease-in-out transform border-t transition-display border-container"
-        :class="{ 'hidden' : !menu.open }"
-    >
-        <?php foreach ($menuItems as $index => $menuItem): ?>
-            <div class="level-0 ">
-                <span id="menu_item_<?= $index ?>_container"
-                      class="flex items-center transition-transform duration-150 ease-in-out transform">
-                    <a class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                        bg-secondary border-container hover:bg-container-darker hover:underline level-0"
-                       href="<?= $escaper->escapeHtmlAttr($menuItem['url']) ?>"
-                       title="<?= $escaper->escapeHtmlAttr($menuItem['name']) ?>">
-                        <?= $escaper->escapeHtml($menuItem['name']) ?>
-                    </a>
-                    <?php if (!empty($menuItem['childData'])): ?>
-                        <a class="absolute right-0 flex w-8 h-8 mr-8 border rounded cursor-pointer
-                        bg-secondary border-container hover:bg-container hover:border-container"
-                           @click="menu.mobilePanelActiveId =
-                          menu.mobilePanelActiveId === '<?= /* @noEscape */
-                           (string)$index ?>' ?
-                           0 : '<?= /* @noEscape */
-                           (string)$index ?>'; swapCssClass('<?= /* @noEscape */
-                           (string)$index ?>');
-                            document.getElementById('menu_item_<?= $index ?>_children').classList.remove('overflow-y-scroll');"
+    <nav id="nav-mobile-container"
+        class="nav-mobile hidden w-full duration-150 ease-in-out transform border-t transition-display
+        border-container bg-secondary h-screen overflow-y-auto pb-20"
+        :class="{ 'hidden' : !menu.open }">
+        <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
+            ->setData('menu_items', $block->getMenuItems())
+            ->toHtml(); ?>
 
-                        >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24"
-                             stroke="currentColor"
-                             class="w-full h-full p-1"
-                        >
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                    <?php endif; ?>
-                </span>
-                <?php if (!empty($menuItem['childData'])): ?>
-                    <div id="menu_item_<?= $index ?>_children"
-                         class="overflow-y-scroll absolute top-0 right-0 z-40 w-full h-full transition-transform duration-200 ease-in-out h-screen
-                            translate-x-full transform bg-secondary pb-32">
-                        <a class="flex items-center px-8 py-4 border-b cursor-pointer bg-primary-lighter border-container"
-                           @click="menu.mobilePanelActiveId = 0; swapCssClassBack('<?= /* @noEscape */
-                           (string)$index ?>');"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24"
-                                 width="24"
-                                 stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M15 19l-7-7 7-7"/>
-                            </svg>
-                            <span class="ml-4 color-primary">
-                                <?= $escaper->escapeHtml($menuItem['name']) ?>
-                            </span>
-                        </a>
-                        <a href="<?= $escaper->escapeHtmlAttr($menuItem['url']) ?>"
-                           title="<?= $escaper->escapeHtmlAttr($menuItem['name']) ?>"
-                           class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                            bg-secondary border-container hover:bg-container-darker hover:underline"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" height="24"
-                                 width="24"></svg>
-                            <span class="ml-4"><?= $escaper->escapeHtml(__('View All')) ?></span></a>
-                        <?php foreach ($menuItem['childData'] as $submenuItemIndex => $subMenuItem): ?>
-                            <div class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                                bg-secondary border-container hover:bg-container-darker hover:underline">
-                                <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
-                                   title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                     viewBox="0 0 24 24" height="24"
-                                     width="24"></svg>
-                                <span class="ml-4 text-base text-white lg:ml-0">
-                                            <?= $escaper->escapeHtml($subMenuItem['name']) ?>
-                                        </span>
-                                </a>
-                                <?php /* SUB SUB MENU OPEN ICON */ ?>
-                                <?php if (!empty($subMenuItem['childData'])): ?>
-                                    <a class="absolute right-0 flex w-8 h-8 mr-8 border rounded cursor-pointer bg-secondary border-container hover:bg-container hover:border-container"
-                                       @click="menu.mobilePanelActiveId = '<?= /* @noEscape */
-                                       (string)$submenuItemIndex ?>';
-                                           swapCssClassIn('<?= $submenuItemIndex ?>_container');
-                                           swapCssClassOut('<?= $index ?>_container');
-                                           document.getElementById('menu_item_<?= $index ?>_children').classList.remove('overflow-y-scroll');
-                                            ">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             height="24" width="24"
-                                             stroke="green"
-                                             class="w-full h-full p-1"
-                                        >
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M9 5l7 7-7 7"/>
-                                        </svg>
-                                    </a>
-                                <?php endif; ?>
-                            </div>
-                            <?php /* SUB SUB MENU TITLE / BACK / VIEW ALL */ ?>
-                            <?php if (!empty($subMenuItem['childData'])): ?>
-                                <div id="menu_item_<?= $submenuItemIndex ?>_container"
-                                     class="subsubmenu-start overflow-y-scroll absolute top-0 right-0 z-40 w-full h-full transition-transform duration-200 ease-in-out h-screen
-                            translate-x-full transform bg-secondary pb-32">
-                                    <a class="flex items-center px-8 py-4 border-b cursor-pointer bg-primary-lighter border-container"
-                                       @click="menu.mobilePanelActiveId = '<?= /* @noEscape */
-                                       (string)$submenuItemIndex ?>';
-                                           swapCssClassOut('<?= $submenuItemIndex ?>_container');
-                                           swapCssClassIn('<?= $index ?>_container');
-                                           document.getElementById('menu_item_<?= $index ?>_children').classList.add('overflow-y-scroll');">
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             height="24"
-                                             width="24"
-                                             stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M15 19l-7-7 7-7"/>
-                                        </svg>
-                                        <span
-                                            class="ml-4 color-primary"><?= $escaper->escapeHtml($subMenuItem['name']) ?></span>
-                                    </a>
-                                    <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
-                                       title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
-                                       class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                            bg-secondary border-container hover:bg-container-darker hover:underline"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                             viewBox="0 0 24 24" height="24"
-                                             width="24"></svg>
-                                        <span
-                                            class="ml-4"><?= $escaper->escapeHtml(__('View All')) ?></span></a>
-                                    <?php foreach ($subMenuItem['childData'] as $subSubmenuItemIndex => $subSubMenuItem): ?>
-                                        <div class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                                bg-secondary border-container hover:bg-container-darker hover:underline">
-                                            <a href="<?= $escaper->escapeHtmlAttr($subSubMenuItem['url']) ?>"
-                                               title="<?= $escaper->escapeHtmlAttr($subSubMenuItem['name']) ?>"
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                 viewBox="0 0 24 24" height="24"
-                                                 width="24"></svg>
-                                            <span class="ml-4 text-base text-white lg:ml-0">
-                                            <?= $escaper->escapeHtml($subSubMenuItem['name']) ?>
-                                        </span>
-                                            </a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-
-                            <?php endif; /* END SUB SUB MENU ITEMS */ ?>
-
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        <?php endforeach; ?>
     </nav>
 </div>
+

@@ -22,16 +22,13 @@
                    as="topmenu"
                    template="ProxiBlue_MultiMenu::html/header/topmenu.phtml" ttl="3600">
                 <block name="topmenu_multimenu_desktop"
-                       template="ProxiBlue_MultiMenu::html/header/topmenu/desktop/menu.phtml" ttl="3600">
-                    <block name="topmenu_multimenu_desktop_childitems"
-                           as="topmenu.desktop.childitems"
-                           template="ProxiBlue_MultiMenu::html/header/topmenu/desktop/childitems.phtml" ttl="3600"/>
+                       template="ProxiBlue_MultiMenu::html/header/topmenu/menu.phtml" ttl="3600">
+                    <block name="topmenu_multimenu_childitems"
+                           as="topmenu.childitems"
+                           template="ProxiBlue_MultiMenu::html/header/topmenu/childitems.phtml" ttl="3600"/>
                 </block>
                 <block name="topmenu_multimenu_mobile"
                        template="ProxiBlue_MultiMenu::html/header/topmenu/mobile/menu.phtml" ttl="3600">
-                    <block name="topmenu_multimenu_mobile_childitems"
-                           as="topmenu.mobile.childitems"
-                           template="ProxiBlue_MultiMenu::html/header/topmenu/mobile/childitems.phtml" ttl="3600"/>
                 </block>
                 <block name="topmenu_multimenu_additional"
                        as="topmenu.additional"

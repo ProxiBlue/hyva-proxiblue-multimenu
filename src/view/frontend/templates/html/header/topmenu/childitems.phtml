@@ -30,7 +30,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
     <?php foreach ($parentData['childData'] as $subMenuIndex => $subMenuItem): ?>
         <?php if (!empty($subMenuItem['childData'])): ?>
             <!-- This is the container for x-data -->
-            <li class="max-w-md rounded-sm relative px-3 py-1 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?>">
+            <li class="rounded-sm relative px-3 py-1 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?>">
                 <button @mouseenter.debounce="{ menu.checkSlideDirection($event) }" id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                         class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
                                             <span
@@ -42,7 +42,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                                                     </a>
                                             </span>
                     <?php if (!empty($subMenuItem['childData'])): ?>
-                        <span class="mr-auto">
+                        <span @click="menu.handleMobileOpenMenu($event)" class="mr-auto">
                                       <svg class="fill-current h-4 w-4 transition duration-150 ease-in-out"
                                            xmlns="http://www.w3.org/2000/svg"
                                            viewBox="0 0 20 20">
@@ -54,7 +54,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                     <?php endif; ?>
                 </button>
                 <?php if (!empty($subMenuItem['childData'])): ?>
-                    <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop_childitems')
+                    <?= $block->getLayout()->getBlock('topmenu_multimenu_childitems')
                         ->setData('parent_data', $subMenuItem)
                         ->setData('child_css', 'top-0 right-0 origin-top-left')
                         ->setData('child_level', $block->getChildLevel() + 1)
@@ -62,7 +62,7 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                 <?php endif; ?>
             </li>
         <?php else: ?>
-            <li class="max-w-md rounded-sm px-0 py-1 px-3 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
+            <li class="rounded-sm px-0 py-1 px-3 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
                 <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
                    title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
                    class="block w-full whitespace-nowrap first:mt-0 hover:underline">
