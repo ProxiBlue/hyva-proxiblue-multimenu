@@ -57,6 +57,7 @@ use Magento\Framework\View\Element\Template;
         :class="{ 'hidden' : !menu.open }">
         <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
             ->setData('menu_items', $block->getMenuItems())
+            ->setData('show_icons', $block->getShowIcons())
             ->toHtml(); ?>
 
     </nav>

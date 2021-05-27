@@ -28,6 +28,7 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
     <!-- mobile -->
     <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile')
         ->setData('menu_items', $menuItems)
+        ->setData('show_icons', $viewModelNavigation->getCanShowIcons())
         ->toHtml(); ?>
 
     <!-- desktop -->
@@ -36,6 +37,7 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
         <nav id="nav-desktop-container" class="nav-desktop flex">
             <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
                 ->setData('menu_items', $menuItems)
+                ->setData('show_icons', $viewModelNavigation->getCanShowIcons())
                 ->toHtml(); ?>
         </nav>
     </div>

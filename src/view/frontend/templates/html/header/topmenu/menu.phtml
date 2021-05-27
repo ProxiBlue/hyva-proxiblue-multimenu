@@ -48,6 +48,7 @@ $menuItems = $block->getMenuItems();
                 ->setData('parent_data', $menuItem)
                 ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
                 ->setData('child_level', 1)
+                ->setData('show_icons', $block->getShowIcons())
                 ->toHtml(); ?>
         <?php endif; ?>
     </div>

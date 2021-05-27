@@ -26,4 +26,9 @@ class Navigation extends HyvaNavigation
         return $this->scopeConfig->getValue(self::XML_PATH_MULTIMENU . 'general/depth', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
+    public function getCanShowIcons($storeId = null)
+    {
+        return $this->scopeConfig->getValue(self::XML_PATH_MULTIMENU . 'general/show_icons', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    }
+
 }

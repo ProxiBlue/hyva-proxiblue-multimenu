@@ -26,6 +26,11 @@
                     <label>Category Depth</label>
                     <comment>Levels of Sub Menus based on category depth</comment>
                 </field>
+                <field id="show_icons" translate="label" type="select" showInDefault="1" showInWebsite="1"
+                       showInStore="1" canRestore="1">
+                    <label>Place Category Image</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>

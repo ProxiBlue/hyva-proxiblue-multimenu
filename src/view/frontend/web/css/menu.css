@@ -8,9 +8,9 @@
 
 .page-header .nav-desktop li:hover > ul.slide-to-left {
     transform: scale(1);
-    left: -300px;
+    left: -350px;
     z-index: 60;
-    max-width: 300px;
+    max-width: 350px;
 }
 
 .page-header .nav-desktop li > button svg {
