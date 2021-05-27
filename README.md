@@ -25,7 +25,7 @@ In admin,
 
 This will determine how many levels of pullouts are displayed
 
-* Stores->Configuration->General->Category Images you can set if teh category image should be set as an icon to the right
+* Stores->Configuration->General->Category Images you can set if the category image should be set as an icon to the left of menu item
 
 ## Adding additional menu items (that is not categories)
 
