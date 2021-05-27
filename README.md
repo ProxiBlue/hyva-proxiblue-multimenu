@@ -29,7 +29,9 @@ This will determine how many levels of pullouts are displayed
 
 You can set if the category image should be set as an icon to the left of menu item
 
-* Category Manager, Under Display Settings you can add a per category CSS string. Generally this can be used to hide a catgeory at certain screen breakpoints for responsive customization
+* Category Manager, Under Display Settings you can add a per category CSS string. 
+
+Generally this can be used to hide a catgeory at certain screen breakpoints for responsive customization
 
 ## Adding additional menu items (that is not categories)
 
