@@ -1,6 +1,5 @@
 # Hyva Compatible Multi Depth Menu based on category structure
 
-** This module is a WIP, it is not ready for production use **
 
 ## Introduction
 
