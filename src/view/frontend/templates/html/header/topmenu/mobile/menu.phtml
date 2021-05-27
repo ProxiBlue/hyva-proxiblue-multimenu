@@ -18,13 +18,13 @@ use Magento\Framework\View\Element\Template;
 ?>
 <div x-ref="nav-mobile" data-navtype="nav-mobile"
      @load.window="menu.setActiveMenu($refs['nav-mobile'])"
-     class="bg-container-lighter lg:hidden"
+     class="bg-primary lg:hidden"
      :class="{'min-h-screen fixed top-0 left-0 w-full' : menu.open}"
      @toggle-mobile-menu.window="menu.open = !menu.open;"
      @keydown.window.escape="menu.open=false"
 >
-    <div class="flex items-baseline justify-between menu-icon bg-primary">
-        <div class="flex justify-end w-full">
+    <div class="flex items-baseline justify-between menu-icon bg-transparent">
+        <div class="flex justify-start w-full">
             <a @click="$dispatch('toggle-mobile-menu');"
                class="flex items-center justify-center cursor-pointer"
                :class="{ 'ml-auto': menu.open }">

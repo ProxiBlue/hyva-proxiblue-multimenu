@@ -14,13 +14,13 @@
             }
 
         }
-        svg {
-            @apply border w-8 h-8;
+        svg.control {
+            @apply border w-8 h-9;
         }
-        button svg {
+        button svg.control {
             transform: rotate(-90deg);
         }
-        button.menu-active svg {
+        button.menu-active svg.control {
             transform: rotate(0deg);
         }
         ul.open-down {
@@ -29,12 +29,13 @@
         }
         ul.open-down > li {
             transform: scale(1);
-            &:after {
-
-            }
         }
         .group > button {
             @apply bg-secondary-darker;
+        }
+        .sub-indicator {
+            @apply border-none inline;
+            transform: rotate(0deg);
         }
     }
 }

@@ -31,19 +31,31 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
         <?php if (!empty($subMenuItem['childData'])): ?>
             <!-- This is the container for x-data -->
             <li class="rounded-sm relative px-3 py-1 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?>">
-                <button @mouseenter.debounce="{ menu.checkSlideDirection($event) }" id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
+                <button @mouseenter.debounce="{ menu.checkSlideDirection($event) }"
+                        id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                         class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
-                                            <span
-                                                class="pr-1 flex-1">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mr-1 mb-1" viewBox="0 0 20 20"
+                             fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"/>
+                    <path fill-rule="evenodd"
+                          d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"/>
+                </svg>
+                    </span>
+                    <span
+                        class="pl-1 pr-1 flex-1">
                                                     <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
                                                        title="Click to view all <?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
                                                        class="block w-full whitespace-nowrap first:mt-0 hover:underline">
-                                                <?= $escaper->escapeHtml($subMenuItem['name']) ?>
+                                                <?= $escaper->escapeHtml(trim($subMenuItem['name'])) ?>
                                                     </a>
                                             </span>
                     <?php if (!empty($subMenuItem['childData'])): ?>
                         <span @click="menu.handleMobileOpenMenu($event)" class="mr-auto">
-                                      <svg class="fill-current h-4 w-4 transition duration-150 ease-in-out"
+                                      <svg class="fill-current h-4 w-4 transition duration-150 ease-in-out control"
                                            xmlns="http://www.w3.org/2000/svg"
                                            viewBox="0 0 20 20">
                                         <path
@@ -62,11 +74,22 @@ min-w-32 mt-0 mr-0 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($p
                 <?php endif; ?>
             </li>
         <?php else: ?>
-            <li class="rounded-sm px-0 py-1 px-3 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
+            <li class="h-10 rounded-sm px-0 py-1 px-3 hover:bg-secondary-darker <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
+                <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mr-1 mb-1 inline" viewBox="0 0 20 20"
+                             fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"/>
+                    <path fill-rule="evenodd"
+                          d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"/>
+                </svg>
+                    </span>
                 <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
                    title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
-                   class="block w-full whitespace-nowrap first:mt-0 hover:underline">
-                    <?= $escaper->escapeHtml(substr($subMenuItem['name'], 0, 30)) ?>
+                   class="inline block w-full whitespace-nowrap first:mt-0 hover:underline">
+                    <?= $escaper->escapeHtml(substr(trim($subMenuItem['name']), 0, 30)) ?>
                     <?php if (strlen($subMenuItem['name']) > 30): ?>
                         ...
                     <?php endif; ?>
