@@ -97,3 +97,12 @@ I needed this working for a client build, so it is AS IS.
 ## Credits
 
 The original tailwind css based menu dropdown was based on https://tailwindcomponents.com/component/nestable-dropdown-menu
+
+## Donations
+
+If you use this in a commercial site, I'd appreciate a donation to my Cat Sugar Cube's toy fund ;)
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/proxiblue?locale.x=en_AU)
+
+![image](https://user-images.githubusercontent.com/4994260/119922080-abece100-bfa1-11eb-968e-79af6e94789a.png)
+
