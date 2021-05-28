@@ -3,7 +3,7 @@
 
 ## Introduction
 
-The default Hyva menu if a flat 1 level category menu. I needed a multiple depth menu for a site build.
+The default Hyva menu is a flat 1 level category menu. I needed a multiple depth menu for a site build.
 This is the end result.
 
 ## Install
