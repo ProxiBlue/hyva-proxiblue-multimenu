@@ -29,7 +29,7 @@ In admin,
 
 * Category Manager, Under Display Settings 
 
-** you can add a per category CSS string. Generally this can be used to hide a catgeory at certain screen breakpoints for responsive customization
+** you can add a per category CSS string. Generally this can be used to hide a category at certain screen breakpoints for responsive customization
 
 ## Adding additional menu items (that are not categories)
 
