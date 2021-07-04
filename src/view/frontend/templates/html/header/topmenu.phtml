@@ -39,6 +39,7 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
                 ->setData('menu_items', $menuItems)
                 ->setData('show_icons', $viewModelNavigation->getCanShowIcons())
                 ->toHtml(); ?>
+            <?= $block->getChildHtml('topmenu.additional'); ?>
         </nav>
     </div>
 
