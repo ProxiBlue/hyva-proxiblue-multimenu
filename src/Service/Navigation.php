@@ -80,7 +80,7 @@ class Navigation extends HyvaNavigation
      * @return CategoryColleciton
      * @throws LocalizedException
      */
-    protected function getCategoryTree($storeId, $rootId, $maxLevel = 0)
+    public function getCategoryTree($storeId, $rootId, $maxLevel = 0)
     {
         /** @var CategoryColleciton $collection */
         $collection = $this->collectionFactory->create();
