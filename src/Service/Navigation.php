@@ -54,7 +54,7 @@ class Navigation extends HyvaNavigation
      * @return array
      * @throws LocalizedException
      */
-    protected function getCategoryAsArray($category, $currentCategory, $isParentActive)
+    public function getCategoryAsArray($category, $currentCategory, $isParentActive)
     {
         $categoryId = $category->getId();
         return [
