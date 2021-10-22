@@ -16,12 +16,13 @@ use Magento\Framework\View\Element\Template;
 /** @var Escaper $escaper */
 
 ?>
-<div x-ref="nav-mobile" data-navtype="nav-mobile"
+<div id="nav-mobile" x-ref="nav-mobile" data-navtype="nav-mobile"
      @load.window="menu.setActiveMenu($refs['nav-mobile'])"
      class="nav-mobile bg-container-lighter lg:hidden"
      :class="{'min-h-screen fixed top-0 left-0 w-full' : menu.open}"
      @toggle-mobile-menu.window="menu.open = !menu.open;"
      @keydown.window.escape="menu.open=false"
+     @click.prevent="menu.handleMobileOpenMenu($event)"
 >
     <div class="flex items-baseline justify-between menu-icon bg-transparent">
         <div class="flex justify-start w-full">
@@ -55,11 +56,6 @@ use Magento\Framework\View\Element\Template;
         class="hidden w-full duration-150 ease-in-out transform border-t transition-display
         border-container h-screen overflow-y-auto pb-20"
         :class="{ 'hidden' : !menu.open }">
-        <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
-            ->setData('menu_items', $block->getMenuItems())
-            ->setData('show_icons', $block->getShowIcons())
-            ->toHtml(); ?>
-
     </nav>
 </div>
 

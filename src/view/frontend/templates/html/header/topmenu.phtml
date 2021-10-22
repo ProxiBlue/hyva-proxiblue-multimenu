@@ -85,6 +85,7 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
                 }
             },
             handleMobileOpenMenu(event) {
+                this.moveMenuInDom();
                 if (event.target.localName == 'svg') {
                     var domElm = event.target.parentElement.parentElement;
                 } else {
@@ -108,32 +109,28 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
             },
             moveMenuInDom() {
                 if (this.open === true) {
-                    console.log('move menu to mobile');
-                    var mobileNavElm = document.getElementById('nav-mobile-container');
-                    if (mobileNavElm.innerHTML.trim() == '') {
-                        let srcElm = document.getElementById('nav-desktop-container');
-                        return new Promise((resolve, reject) => {
-                            console.log('move')
-                            mobileNavElm.append(...srcElm.childNodes);
-                            return resolve();
-                        })
-                            .then(() => {
-                                console.log('alpine')
-                                Alpine.discoverUninitializedComponents(function (el) {
-                                    console.log(el);
-                                    Alpine.initializeComponent(el)
-                                })
-                            });
-                    }
+                    this.manipulateDOM('nav-mobile-container','nav-desktop-container')
                 } else {
-                    console.log('move menu to desktop');
-                    var navElm = document.getElementById('nav-desktop-container');
-                    if (navElm.innerHTML.trim() == '') {
-                        let srcElm = document.getElementById('nav-mobile-container');
-                        navElm.appendChild(srcElm);
-                    }
+                    this.manipulateDOM('nav-desktop-container','nav-mobile-container')
+                }
+            },
+            manipulateDOM(to,from) {
+                var NavElm = document.getElementById(to);
+                if (NavElm.innerHTML.trim() == '') {
+                    let srcElm = document.getElementById(from);
+                    return new Promise((resolve, reject) => {
+                        NavElm.append(...srcElm.childNodes);
+                        return resolve();
+                    })
+                        .then(() => {
+                            Alpine.discoverUninitializedComponents(function (el) {
+                                console.log(el);
+                                Alpine.initializeComponent(el)
+                            })
+                        });
                 }
             }
+
         }
     }
 </script>
