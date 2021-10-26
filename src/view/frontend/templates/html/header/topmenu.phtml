@@ -124,7 +124,6 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
                     })
                         .then(() => {
                             Alpine.discoverUninitializedComponents(function (el) {
-                                console.log(el);
                                 Alpine.initializeComponent(el)
                             })
                         });
