@@ -68,7 +68,7 @@ use Magento\Framework\View\Element\Template;
 
 ## Usage
 
-Well, it's a hover dropdown menu. Simply hover over memnu items, and the child items will be shown. 
+Well, it's a hover dropdown menu. Simply hover over menu items, and the child items will be shown. 
 
 ![image](https://user-images.githubusercontent.com/4994260/119622514-ce63ea80-be39-11eb-87e6-be8f6efb2455.png)
 
