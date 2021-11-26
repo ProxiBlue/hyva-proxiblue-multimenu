@@ -33,7 +33,7 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
 
     <!-- desktop -->
     <div x-ref="nav-desktop" data-navtype="nav-desktop"
-         class=" lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
+         class="lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
         <nav id="nav-desktop-container" class="nav-desktop flex">
             <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
                 ->setData('menu_items', $menuItems)
@@ -110,8 +110,12 @@ $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCatego
             moveMenuInDom() {
                 if (this.open === true) {
                     this.manipulateDOM('nav-mobile-container','nav-desktop-container')
+                    document.getElementById('html-body').classList.add('fixed-position')
+                    document.getElementById('nav-mobile').classList.add('mobile-scroll')
                 } else {
                     this.manipulateDOM('nav-desktop-container','nav-mobile-container')
+                    document.getElementById('html-body').classList.remove('fixed-position')
+                    document.getElementById('nav-mobile').classList.remove('mobile-scroll')
                 }
             },
             manipulateDOM(to,from) {

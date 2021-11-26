@@ -1,3 +1,7 @@
+.fixed-position {
+    position: fixed;
+}
+
 .page-header .nav-desktop li > ul {
     transform: translatex(100%) scale(0);
     min-width: 400px;
@@ -35,6 +39,11 @@
 
 .page-header .nav-desktop .min-w-32 {
     min-width: 8rem
+}
+
+.mobile-scroll {
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .page-header .nav-mobile ul, .page-header .nav-mobile li {

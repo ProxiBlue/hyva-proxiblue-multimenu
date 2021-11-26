@@ -22,7 +22,7 @@ use Magento\Framework\View\Element\Template;
      :class="{'min-h-screen fixed top-0 left-0 w-full' : menu.open}"
      @toggle-mobile-menu.window="menu.open = !menu.open;"
      @keydown.window.escape="menu.open=false"
-     @click.prevent="menu.handleMobileOpenMenu($event)"
+     @click="menu.handleMobileOpenMenu($event)"
 >
     <div class="flex items-baseline justify-between menu-icon bg-transparent">
         <div class="flex justify-start w-full">
