@@ -66,8 +66,7 @@ class Navigation extends HyvaNavigation
             'is_active' => $categoryId == $currentCategory->getId(),
             'is_category' => true,
             'is_parent_active' => $isParentActive,
-            'position' => $category->getData('position'),
-            'menu_css_class' => $category->getData('menu_css_class')
+            'position' => $category->getData('position')
         ];
     }
 
@@ -85,7 +84,7 @@ class Navigation extends HyvaNavigation
         /** @var CategoryColleciton $collection */
         $collection = $this->collectionFactory->create();
         $collection->setStoreId($storeId);
-        $collection->addAttributeToSelect(['name', 'image', 'menu_css_class']);
+        $collection->addAttributeToSelect(['name', 'image']);
         $collection->addFieldToFilter('path', ['like' => '1/' . $rootId . '/%']); //load only from store root
         $collection->addAttributeToFilter('include_in_menu', 1);
         $collection->addIsActiveFilter();

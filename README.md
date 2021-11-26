@@ -27,10 +27,6 @@ In admin,
 
 ** You can set if the category image should be set as an icon to the left of menu item
 
-* Category Manager, Under Display Settings 
-
-** you can add a per category CSS string. Generally this can be used to hide a category at certain screen breakpoints for responsive customization
-
 ## Adding additional menu items (that are not categories)
 
 You may want to add top level menu items, like example 'Contact Us'

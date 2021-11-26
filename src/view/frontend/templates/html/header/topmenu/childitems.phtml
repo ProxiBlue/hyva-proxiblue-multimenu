@@ -33,7 +33,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
     <?php foreach ($parentData['childData'] as $subMenuIndex => $subMenuItem): ?>
         <?php if (!empty($subMenuItem['childData'])): ?>
             <!-- This is the container for x-data -->
-            <li class="rounded-sm relative px-3 pr-10 lg:px-2 py-1 pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['menu_css_class']) ?> whitespace-nowrap">
+            <li class="rounded-sm relative px-3 pr-10 lg:px-2 py-1 pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['id']) ?> whitespace-nowrap">
                 <button @mouseenter.debounce="{ menu.checkSlideDirection($event) }"
                         id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                         class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">

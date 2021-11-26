@@ -20,7 +20,7 @@ $menuItems = $block->getMenuItems();
 ?>
 <?php foreach ($menuItems as $index => $menuItem): ?>
     <div class="group group-<?= /* @noEscape */
-    (string)$index ?> <?= $escaper->escapeHtml($menuItem['menu_css_class']) ?>">
+    (string)$index ?>">
         <button
             @click="menu.hoverPanelActiveId = '<?= /* @noEscape */
             (string)$index ?>'"
