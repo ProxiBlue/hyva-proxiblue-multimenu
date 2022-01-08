@@ -25,7 +25,7 @@ In admin,
 
 ** you can set the Category Depth. This will determine how many levels of pullouts are displayed
 
-** You can set if the category image should be set as an icon to the left of menu item
+** You can set if the category image should be set as an icon to the left of menu item (note: this will add a large scale load of requests to server for the images on page load)
 
 ## Adding additional menu items (that are not categories)
 
