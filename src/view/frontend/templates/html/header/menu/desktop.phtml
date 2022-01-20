@@ -22,16 +22,13 @@ $viewModelNavigation = $viewModels->require(Navigation::class);
 /** @var HeroiconsSolid $heroiconsSolid */
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
 
-
-$uniqueId = '_' . uniqid();
-
 // Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
 $menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCategoryDepth());
 $block->setData('cache_tags', $viewModelNavigation->getIdentities());
 
 
 ?>
-<div x-data="initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>()"
+<div id="nav-desktop" x-data="initMenu()"
      class="z-20 order-2 sm:order-1 lg:order-2 navigation hidden lg:flex"
 >
     <!-- desktop -->
@@ -46,7 +43,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                 <div class="group group-<?= /* @noEscape */
                 (string)$index ?>">
                     <button
-                        @click="initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>.hoverPanelActiveId = '<?= /* @noEscape */
+                        @click="initMenu.hoverPanelActiveId = '<?= /* @noEscape */
                         (string)$index ?>'"
                         class="uppercase border-none bg-transparent outline-none focus:outline-none border px-3 py-1 h-10 rounded-sm flex items-center min-w-32 hover:bg-secondary-darker"
                     >
@@ -73,7 +70,6 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                             ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
                             ->setData('child_level', 1)
                             ->setData('show_icons', $block->getShowIcons())
-                            ->setData('menu_uid', $uniqueId)
                             ->toHtml(); ?>
                     <?php endif; ?>
                 </div>
@@ -82,92 +78,3 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
         </nav>
     </div>
 </div>
-<script>
-    'use strict';
-
-    const initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?> = () => {
-        return {
-            hoverPanelActiveId: null,
-            setActiveMenu(menuNode) {
-                Array.from(menuNode.querySelectorAll('a')).filter(link => {
-                    return link.href === window.location.href.split('?')[0];
-                }).map(item => {
-                    item.classList.add('underline');
-                    item.closest('div.level-0') &&
-                    item.closest('div.level-0').querySelector('a.level-0').classList.add('underline');
-                });
-            },
-            checkSlideDirection(event) {
-                let domElm = event.target
-                if (domElm.nextElementSibling) {
-                    let UlElm = domElm.nextElementSibling;
-                    return new Promise((resolve, reject) => {
-                        UlElm.classList.remove('slide-to-left');
-                        UlElm.classList.remove('slide-to-right')
-                        return resolve();
-                    })
-                        .then(() => {
-                            if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
-                                UlElm.style.zIndex = -1;
-                                UlElm.classList.add('slide-to-left')
-                                this.slideToLeft = true;
-                            } else {
-                                UlElm.classList.add('slide-to-right');
-                                this.slideToLeft = false;
-                            }
-                        });
-
-                }
-            },
-            handleMobileOpenMenu(event) {
-                this.moveMenuInDom();
-                if (event.target.localName == 'svg') {
-                    var domElm = event.target.parentElement.parentElement;
-                } else {
-                    var domElm = event.target.parentElement.parentElement.parentElement;
-                }
-                if (domElm.nextElementSibling) {
-                    let UlElm = domElm.nextElementSibling;
-                    let parent = domElm.offsetParent
-                    if (parent.classList.contains('menu-active')) {
-                        parent.classList.remove('menu-active');
-                        domElm.classList.remove('menu-active');
-                        UlElm.classList.remove('open-down');
-                    } else {
-                        parent.classList.add('menu-active');
-                        domElm.classList.add('menu-active');
-                        UlElm.classList.add('open-down');
-                    }
-
-                }
-
-            },
-            moveMenuInDom() {
-                if (this.open === true) {
-                    this.manipulateDOM('nav-mobile-container','nav-desktop-container')
-                    document.getElementById('html-body').classList.add('fixed-position')
-                    document.getElementById('nav-mobile').classList.add('mobile-scroll')
-                } else {
-                    this.manipulateDOM('nav-desktop-container','nav-mobile-container')
-                    document.getElementById('html-body').classList.remove('fixed-position')
-                    document.getElementById('nav-mobile').classList.remove('mobile-scroll')
-                }
-            },
-            manipulateDOM(to,from) {
-                var NavElm = document.getElementById(to);
-                if (NavElm.innerHTML.trim() == '') {
-                    let srcElm = document.getElementById(from);
-                    return new Promise((resolve, reject) => {
-                        NavElm.append(...srcElm.childNodes);
-                        return resolve();
-                    })
-                        .then(() => {
-                            Alpine.discoverUninitializedComponents(function (el) {
-                                Alpine.initializeComponent(el)
-                            })
-                        });
-                }
-            }
-        }
-    }
-</script>
