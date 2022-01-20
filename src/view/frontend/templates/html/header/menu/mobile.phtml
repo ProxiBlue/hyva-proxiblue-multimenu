@@ -32,7 +32,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
     <div id="nav-mobile-scroll" @load.window="setActiveMenu($el)"
          class="bg-container-lighter"
          :class="{'fixed top-0 left-0 w-full' : open}"
-         @toggle-mobile-menu.window="open = !open; if(open) { moveMenuInDom() }"
+         @toggle-mobile-menu.window="open = !open; moveMenuInDom()"
          @keydown.window.escape="open=false"
          @click="handleMobileOpenMenu($event)"
     >
