@@ -44,7 +44,7 @@ const initMenu = () => {
             }
             if (domElm.nextElementSibling) {
                 let UlElm = domElm.nextElementSibling;
-                let parent = domElm.offsetParent
+                let parent = domElm;
                 if (parent.classList.contains('menu-active')) {
                     parent.classList.remove('menu-active');
                     domElm.classList.remove('menu-active');
