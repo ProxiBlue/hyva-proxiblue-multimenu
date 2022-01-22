@@ -60,10 +60,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                                                     <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
                                                        title="Click to view all <?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
                                                        class="block w-full whitespace-nowrap first:mt-0 hover:underline">
-                                                <?= $escaper->escapeHtml(substr(trim($subMenuItem['name']), 0, 30)) ?>
-                                                        <?php if (strlen($subMenuItem['name']) > 30): ?>
-                                                            ...
-                                                        <?php endif; ?>
+                                                <?= $escaper->escapeHtml($subMenuItem['name']) ?>
                                                     </a>
                                             </span>
                     <?php if (!empty($subMenuItem['childData'])): ?>

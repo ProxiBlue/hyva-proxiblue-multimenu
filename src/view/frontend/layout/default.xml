@@ -23,6 +23,9 @@
             </action>
             <block name="topmenu_multimenu_childitems" as="topmenu.childitems"
                    template="ProxiBlue_MultiMenu::html/header/menu/childitems.phtml" ttl="3600"/>
+            <block name="topmenu_multimenu_additional"
+                   as="topmenu.additional.items"
+                   template="ProxiBlue_MultiMenu::html/header/menu/additional.phtml" ttl="3600"/>
         </referenceBlock>
         <referenceBlock name="topmenu_mobile">
             <action method="setTemplate">
