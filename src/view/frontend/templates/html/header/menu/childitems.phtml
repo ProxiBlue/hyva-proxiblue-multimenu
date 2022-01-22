@@ -27,7 +27,7 @@ $image = $viewModels->require(Image::class);
 <ul id="parent-<?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     class="level-<?= $escaper->escapeHtmlAttr($block->getChildLevel()); ?>
     bg-white border rounded-sm absolute transition duration-150 ease-in-out
-min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
+min-w-32 mt-0 mr-0 pb-2 pt-2 pr-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     style="z-index:0"
 >
     <?php foreach ($parentData['childData'] as $subMenuIndex => $subMenuItem): ?>
@@ -105,10 +105,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                 <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
                    title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
                    class="inline block w-full whitespace-nowrap first:mt-0 hover:underline">
-                    <?= $escaper->escapeHtml(substr(trim($subMenuItem['name']), 0, 30)) ?>
-                    <?php if (strlen($subMenuItem['name']) > 30): ?>
-                        ...
-                    <?php endif; ?>
+                    <?= $escaper->escapeHtml($subMenuItem['name']) ?>
                 </a>
             </li>
         <?php endif; ?>
