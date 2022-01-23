@@ -25,12 +25,14 @@ const initMenu = () => {
                 })
                     .then(() => {
                         if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
+                            UlElm.style.right = domElm.offsetWidth+12+"px";
                             UlElm.style.zIndex = -1;
                             UlElm.classList.add('slide-to-left')
                             this.slideToLeft = true;
                         } else {
                             UlElm.classList.add('slide-to-right');
                             this.slideToLeft = false;
+                            UlElm.style.right = 0;
                         }
                     });
 

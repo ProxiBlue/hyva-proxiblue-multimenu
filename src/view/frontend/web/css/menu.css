@@ -13,8 +13,8 @@
 
 .page-header .nav-desktop li:hover > ul.slide-to-left {
     transform: scale(1);
-    left: -400px;
     z-index: 60;
+    text-align: right;
 }
 
 .page-header .nav-desktop li > button svg {
