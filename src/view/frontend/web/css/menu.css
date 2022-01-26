@@ -46,19 +46,28 @@
     overflow-y: auto;
 }
 
+.page-header .nav-mobile ul.level-1 {
+    width: 100%;
+}
+
+.page-header .nav-mobile ul {
+    width: -webkit-calc(100% - 45px);
+    width:    -moz-calc(100% - 45px);
+    width:         calc(100% - 45px);
+}
+
 .page-header .nav-mobile ul, .page-header .nav-mobile li {
     padding-right: 0px;
-    width: 100%;
     transform: scale(0);
 }
 
 .page-header .nav-mobile button {
     padding-right: 0.75rem;
+    width: 100%;
 }
 
 .page-header .nav-mobile li, .page-header .nav-mobile button {
     text-align: left;
-    width: 100%;
 }
 
 .page-header .nav-mobile svg.control {

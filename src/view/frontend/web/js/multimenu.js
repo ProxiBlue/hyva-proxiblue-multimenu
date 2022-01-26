@@ -2,8 +2,6 @@
 
 const initMenu = () => {
     return {
-        mobilePanelActiveId: null,
-        hoverPanelActiveId: null,
         open: false,
         setActiveMenu(menuNode) {
             Array.from(menuNode.querySelectorAll('a')).filter(link => {
@@ -16,26 +14,29 @@ const initMenu = () => {
         },
         checkSlideDirection(event) {
             let domElm = event.target
-            if (domElm.nextElementSibling) {
-                let UlElm = domElm.nextElementSibling;
-                return new Promise((resolve, reject) => {
-                    UlElm.classList.remove('slide-to-left');
-                    UlElm.classList.remove('slide-to-right')
-                    return resolve();
-                })
-                    .then(() => {
-                        if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
-                            UlElm.style.right = domElm.offsetWidth+12+"px";
-                            UlElm.style.zIndex = -1;
-                            UlElm.classList.add('slide-to-left')
-                            this.slideToLeft = true;
-                        } else {
-                            UlElm.classList.add('slide-to-right');
-                            this.slideToLeft = false;
-                            UlElm.style.right = 0;
-                        }
-                    });
+            var NavElm = document.getElementById('nav-mobile-container');
+            if (NavElm.innerHTML.trim() == '') {
+                if (domElm.nextElementSibling) {
+                    let UlElm = domElm.nextElementSibling;
+                    return new Promise((resolve, reject) => {
+                        UlElm.classList.remove('slide-to-left');
+                        UlElm.classList.remove('slide-to-right')
+                        return resolve();
+                    })
+                        .then(() => {
+                            if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
+                                UlElm.style.right = domElm.offsetWidth + 12 + "px";
+                                UlElm.style.zIndex = -1;
+                                UlElm.classList.add('slide-to-left')
+                                this.slideToLeft = true;
+                            } else {
+                                UlElm.classList.add('slide-to-right');
+                                this.slideToLeft = false;
+                                UlElm.style.right = 0;
+                            }
+                        });
 
+                }
             }
         },
         handleMobileOpenMenu(event) {
