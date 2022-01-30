@@ -48,10 +48,10 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                         class="uppercase border-none bg-transparent outline-none focus:outline-none border px-3 py-1 h-10 rounded-sm flex items-center min-w-32 hover:bg-secondary-darker"
                     >
                         <span class="pr-1 font-normal flex-1">
-                                <a href="<?= $escaper->escapeHtmlAttr($menuItem['url']) ?>"
-                                   title="Click to view all <?= $escaper->escapeHtmlAttr($menuItem['name']) ?>"
+                                <a href="<?= $escaper->escapeHtml($menuItem['url']) ?>"
+                                   title="Click to view all <?= $escaper->escapeHtml($menuItem['name']) ?>"
                                    class="top-menu block w-full whitespace-nowrap first:mt-0">
-                            <?= $escaper->escapeHtmlAttr($menuItem['name']) ?>
+                            <?= $escaper->escapeHtml($menuItem['name']) ?>
                                 </a>
                         </span>
                         <?php if (!empty($menuItem['childData'])): ?>

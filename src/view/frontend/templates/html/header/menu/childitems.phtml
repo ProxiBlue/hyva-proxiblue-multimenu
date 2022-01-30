@@ -57,8 +57,8 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 pr-2 <?= $block->getChildCss(); ?> <?= $escaper->es
                     <?php endif; ?>
                     <span
                         class="pl-1 pr-1 flex-1">
-                                                    <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
-                                                       title="Click to view all <?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
+                                                    <a href="<?= $escaper->escapeHtml($subMenuItem['url']) ?>"
+                                                       title="Click to view all <?= $escaper->escapeHtml($subMenuItem['name']) ?>"
                                                        class="block w-full whitespace-nowrap first:mt-0 hover:underline">
                                                 <?= $escaper->escapeHtml($subMenuItem['name']) ?>
                                                     </a>
@@ -100,13 +100,11 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 pr-2 <?= $block->getChildCss(); ?> <?= $escaper->es
                 <?php if ($block->getShowIcons()): ?>
                     <img loading="lazy" width="20" height="20" class="inline pl-0"
                          src="<?php echo $image->resize($subMenuItem['image'], 20); ?>"
-                         alt="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"/>
+                         alt="<?= $escaper->escapeHtml($subMenuItem['name']) ?>"/>
                 <?php endif; ?>
-                <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
-                   title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
-                   class="inline block w-full whitespace-nowrap first:mt-0 hover:underline">
-                    <?= $escaper->escapeHtml($subMenuItem['name']) ?>
-                </a>
+                <a href="<?= $escaper->escapeHtml($subMenuItem['url']) ?>"
+                   title="<?= $escaper->escapeHtml($subMenuItem['name']) ?>"
+                   class="inline block w-full whitespace-nowrap first:mt-0 hover:underline"><?= $escaper->escapeHtml($subMenuItem['name']) ?></a>
             </li>
         <?php endif; ?>
     <?php endforeach; ?>
