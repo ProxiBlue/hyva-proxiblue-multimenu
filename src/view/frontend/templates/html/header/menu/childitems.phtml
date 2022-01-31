@@ -56,7 +56,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 pr-2 <?= $block->getChildCss(); ?> <?= $escaper->es
                         <?php $b = 1; ?>
                     <?php endif; ?>
                     <span
-                        class="pl-1 pr-1 flex-1">
+                        class="pr-1 flex-1">
                                                     <a href="<?= $escaper->escapeHtml($subMenuItem['url']) ?>"
                                                        title="Click to view all <?= $escaper->escapeHtml($subMenuItem['name']) ?>"
                                                        class="block w-full whitespace-nowrap first:mt-0 hover:underline">
@@ -84,7 +84,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 pr-2 <?= $block->getChildCss(); ?> <?= $escaper->es
                 <?php endif; ?>
             </li>
         <?php else: ?>
-            <li class="pr-10 rounded-sm px-3 <?php if ($block->getShowIcons()): ?> lg:pl-2 <?php else: ?> lg:pl-3  <?php endif; ?> pb-2 <?= $escaper->escapeHtmlAttr($subMenuIndex) ?> whitespace-nowrap">
+            <li class="pr-10 rounded-sm px-3 lg:pl-2 pb-2 <?= $escaper->escapeHtmlAttr($subMenuIndex) ?> whitespace-nowrap">
                 <span class="lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mb-1 inline"
                              viewBox="0 0 20 20"
