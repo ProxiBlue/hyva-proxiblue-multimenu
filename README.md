@@ -10,6 +10,8 @@ This is the end result.
 
 You can install via composer:
 
+Note: use the 1.1.9 branch for Hyva 1.1.9+ (1.3.x release range)
+
 * run: ```composer config repositories.github.repo.repman.io composer https://github.repo.repman.io```
 * use composer ```composer require proxi-blue/multi-menu```
 * enable: ```./bin/magento module:enable ProxiBlue_MultiMenu```
