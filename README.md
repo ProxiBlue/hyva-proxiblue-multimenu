@@ -23,10 +23,8 @@ Note: use the 1.1.9 branch for Hyva 1.1.9+ (1.3.x release range)
 In admin, 
 
 * Stores->Configuration->General->MultiMenu
-
-** you can set the Category Depth. This will determine how many levels of pullouts are displayed
-
-** You can set if the category image should be set as an icon to the left of menu item (note: this will add a large scale load of requests to server for the images on page load)
+* you can set the Category Depth. This will determine how many levels of pullouts are displayed
+* You can set if the category image should be set as an icon to the left of menu item (note: this will add a large scale load of requests to server for the images on page load)
 
 ## Adding additional menu items (that are not categories)
 
@@ -46,6 +44,7 @@ In the above example the contact.phtml file is as such:
 <?php
 
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
 
 /** @var Template $block */
 /** @var Escaper $escaper */
