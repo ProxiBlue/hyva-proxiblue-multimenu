@@ -53,9 +53,9 @@ use Magento\Framework\Escaper;
 <div class="pr-1 hidden 2xl:block">
     <a
         href="<?= $block->getUrl('contact-us') ?>"
-        title="Contact us"
+        title="<?= $escaper->escapeHtml('Contact us'); ?>"
         class="flex items-center min-w-32 py-1 uppercase bg-transparent border rounded-sm hover:bg-secondary-darker focus:outline-none"
-    >Contact</a>
+    ><?= $escaper->escapeHtml('Contact'); ?></a>
 </div>
 ```
 
