@@ -1,6 +1,5 @@
 # Hyva Compatible Multi Depth Menu based on category structure
 
-
 ## Introduction
 
 The default Hyva menu is a flat 1 level category menu. I needed a multiple depth menu for a site build.
@@ -12,29 +11,27 @@ You can install via composer:
 
 Note: use the 1.1.9 branch for Hyva 1.1.9+ (1.3.x release range)
 
-* run: ```composer config repositories.github.repo.repman.io composer https://github.repo.repman.io```
-* use composer ```composer require proxi-blue/multi-menu```
-* enable: ```./bin/magento module:enable ProxiBlue_MultiMenu```
-* run: ```./bin/magento setup:upgrade```
-* run: ```./bin/magento setup:di:compile```
+* run: `composer config repositories.github.repo.repman.io composer https://github.repo.repman.io`
+* use composer `composer require proxi-blue/multi-menu`
+* enable: `./bin/magento module:enable ProxiBlue_MultiMenu`
+* run: `./bin/magento setup:upgrade`
+* run: `./bin/magento setup:di:compile`
 
 
 ## Configuration
 
 In admin, 
 
-* Stores->Configuration->General->MultiMenu 
-
-** you can set the Category Depth. This will determine how many levels of pullouts are displayed
-
-** You can set if the category image should be set as an icon to the left of menu item (note: this will add a large scale load of requests to server for the images on page load)
+* Stores->Configuration->General->MultiMenu
+* you can set the Category Depth. This will determine how many levels of pullouts are displayed
+* You can set if the category image should be set as an icon to the left of menu item (note: this will add a large scale load of requests to server for the images on page load)
 
 ## Adding additional menu items (that are not categories)
 
 You may want to add top level menu items, like example 'Contact Us'
-You can add this by layout xml update in your theme ```default.xml``` layout file. Reference the block name ```topmenu_multimenu_additional```
+You can add this by layout xml update in your theme `default.xml` layout file. Reference the block name `topmenu_multimenu_additional`
 
-```
+```xml
 <referenceBlock name="topmenu_multimenu_additional">
    <block name="topmenu_multimenu_additional_contactus" as="topmenu.additional.contactus"
        template="Magento_Theme::html/header/topmenu/additional/contact.phtml" ttl="3600"/>
@@ -43,25 +40,23 @@ You can add this by layout xml update in your theme ```default.xml``` layout fil
 
 In the above example the contact.phtml file is as such:
 
-```
+```php
 <?php
 
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
 
 /** @var Template $block */
+/** @var Escaper $escaper */
 ?>
 
-<button
-    class="hidden 2xl:flex hover:bg-secondary-darker uppercase border-none bg-transparent
-    outline-none focus:outline-none border py-1 rounded-sm flex items-center min-w-32">
-        <span class="pr-1 font-normal flex-1">
-                <a href="<?= $block->getUrl('contact-us') ?>"
-                   title="Contact us"
-                   class="block w-full whitespace-nowrap first:mt-0">
-            Contact
-                </a>
-        </span>
-</button>
+<div class="pr-1 hidden 2xl:block">
+    <a
+        href="<?= $block->getUrl('contact-us') ?>"
+        title="<?= $escaper->escapeHtml('Contact us'); ?>"
+        class="flex items-center min-w-32 py-1 uppercase bg-transparent border rounded-sm hover:bg-secondary-darker focus:outline-none"
+    ><?= $escaper->escapeHtml('Contact'); ?></a>
+</div>
 ```
 
 ## Usage
