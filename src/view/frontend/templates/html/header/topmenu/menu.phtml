@@ -18,22 +18,25 @@ use Magento\Framework\View\Element\Template;
 $menuItems = $block->getMenuItems();
 
 ?>
-<?php foreach ($menuItems as $index => $menuItem): ?>
+<?php foreach ($menuItems as $index => $node): ?>
+    <?php
+        $menuItem = $node['node'];
+        $nodeBlock = $block->getNodeTypeProvider($menuItem->getType());
+    ?>
     <div class="group group-<?= /* @noEscape */
     (string)$index ?>">
         <button
-            @click="menu.hoverPanelActiveId = '<?= /* @noEscape */
-            (string)$index ?>'"
+            @click="menu.hoverPanelActiveId = '<?= (string)$index ?>'"
             class="uppercase border-none bg-transparent outline-none focus:outline-none border px-3 py-1 h-10 rounded-sm flex items-center min-w-32 hover:bg-secondary-darker"
             >
                         <span class="pr-1 font-normal flex-1">
-                                <a href="<?= $escaper->escapeHtmlAttr($menuItem['url']) ?>"
-                                   title="Click to view all <?= $escaper->escapeHtmlAttr($menuItem['name']) ?>"
+                                <a href="<?= $escaper->escapeHtmlAttr($nodeBlock->getCategoryUrl($menuItem->getNodeId())) ?>"
+                                   title="Click to view all <?= $escaper->escapeHtmlAttr($menuItem->getTitle()) ?>"
                                    class="top-menu block w-full whitespace-nowrap first:mt-0">
-                            <?= $escaper->escapeHtmlAttr($menuItem['name']) ?>
+                            <?= $escaper->escapeHtmlAttr($menuItem->getTitle()) ?>
                                 </a>
                         </span>
-            <?php if (!empty($menuItem['childData'])): ?>
+            <?php if (!empty($node['children'])): ?>
                 <span>
                       <svg
                           class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out control"
@@ -43,9 +46,9 @@ $menuItems = $block->getMenuItems();
                     </span>
             <?php endif; ?>
         </button>
-        <?php if (!empty($menuItem['childData'])): ?>
+        <?php if (!empty($node['children'])): ?>
             <?= $block->getLayout()->getBlock('topmenu_multimenu_childitems')
-                ->setData('parent_data', $menuItem)
+                ->setData('parent_data', $node)
                 ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
                 ->setData('child_level', 1)
                 ->setData('show_icons', $block->getShowIcons())

@@ -20,20 +20,25 @@ use ProxiBlue\MultiMenu\ViewModel\Image;
 /** @var Escaper $escaper */
 /** @var Image $image */
 
-$parentData = $block->getParentData();
+$node = $block->getParentData();
+$parentData = $node['node'];
 $image = $viewModels->require(Image::class);
 
 ?>
-<ul id="parent-<?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
+<ul id="parent-<?= $escaper->escapeHtmlAttr($parentData->getNodeId()); ?>"
     class="level-<?= $escaper->escapeHtmlAttr($block->getChildLevel()); ?>
     bg-white border rounded-sm absolute transition duration-150 ease-in-out
-min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
+min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData->getNodeId()); ?>"
     style="z-index:0"
 >
-    <?php foreach ($parentData['childData'] as $subMenuIndex => $subMenuItem): ?>
-        <?php if (!empty($subMenuItem['childData'])): ?>
+    <?php foreach ($node['children'] as $subMenuIndex => $subMenuNode): ?>
+    <?php
+        $subMenuItem = $subMenuNode['node'];
+        $nodeBlock = $block->getNodeTypeProvider($subMenuItem->getType());
+        ?>
+        <?php if (!empty($subMenuItem['children'])): ?>
             <!-- This is the container for x-data -->
-            <li class="rounded-sm relative px-3 pr-10 lg:px-2 py-1 pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem['id']) ?> whitespace-nowrap">
+            <li class="rounded-sm relative px-3 pr-10 lg:px-2 py-1 pb-2 hover:bg-secondary-darker <?= $escaper->escapeHtml($subMenuItem->getNodeId()) ?> whitespace-nowrap">
                 <button @mouseenter.debounce="{ menu.checkSlideDirection($event) }"
                         id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                         class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
@@ -51,22 +56,22 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                     </span>
                     <?php if ($block->getShowIcons()): ?>
                         <img loading="lazy" width="20" height="20" class="inline"
-                             src="<?php echo $image->resize($subMenuItem['image'], 20); ?>"
-                             alt="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"/>
+                             src="<?php echo $image->resize($subMenuItem->getImage(), 20); ?>"
+                             alt="<?= $escaper->escapeHtmlAttr($subMenuItem->getTitle()) ?>"/>
                         <?php $b = 1; ?>
                     <?php endif; ?>
                     <span
                         class="pl-1 pr-1 flex-1">
-                                                    <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
-                                                       title="Click to view all <?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
+                                                    <a href="<?= $escaper->escapeHtmlAttr($nodeBlock->getCategoryUrl($subMenuItem->getNodeId())) ?>"
+                                                       title="Click to view all <?= $escaper->escapeHtmlAttr($subMenuItem->getTitle()) ?>"
                                                        class="block w-full whitespace-nowrap first:mt-0 hover:underline">
                                                 <?= $escaper->escapeHtml(substr(trim($subMenuItem['name']), 0, 30)) ?>
-                                                        <?php if (strlen($subMenuItem['name']) > 30): ?>
+                                                        <?php if (strlen($subMenuItem->getTitle()) > 30): ?>
                                                             ...
                                                         <?php endif; ?>
                                                     </a>
                                             </span>
-                    <?php if (!empty($subMenuItem['childData'])): ?>
+                    <?php if (!empty($subMenuNode['children'])): ?>
                         <span class="mr-auto">
                                       <svg class="fill-current h-4 w-4 transition duration-150 ease-in-out control"
                                            xmlns="http://www.w3.org/2000/svg"
@@ -78,9 +83,9 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                                     </span>
                     <?php endif; ?>
                 </button>
-                <?php if (!empty($subMenuItem['childData'])): ?>
+                <?php if (!empty($subMenuNode['children'])): ?>
                     <?= $block->getLayout()->getBlock('topmenu_multimenu_childitems')
-                        ->setData('parent_data', $subMenuItem)
+                        ->setData('parent_data', $subMenuNode)
                         ->setData('child_css', 'top-0 right-0 origin-top-left')
                         ->setData('child_level', $block->getChildLevel() + 1)
                         ->toHtml(); ?>
@@ -102,14 +107,14 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                     </span>
                 <?php if ($block->getShowIcons()): ?>
                     <img loading="lazy" width="20" height="20" class="inline pl-0"
-                         src="<?php echo $image->resize($subMenuItem['image'], 20); ?>"
-                         alt="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"/>
+                         src="<?php echo $image->resize($subMenuItem->getImage(), 20); ?>"
+                         alt="<?= $escaper->escapeHtmlAttr($subMenuItem->getTitle()) ?>"/>
                 <?php endif; ?>
-                <a href="<?= $escaper->escapeHtmlAttr($subMenuItem['url']) ?>"
-                   title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
+                <a href="<?= $escaper->escapeHtmlAttr($nodeBlock->getCategoryUrl($subMenuItem->getNodeId())) ?>"
+                   title="<?= $escaper->escapeHtmlAttr($subMenuItem->getTitle()) ?>"
                    class="inline block w-full whitespace-nowrap first:mt-0 hover:underline">
-                    <?= $escaper->escapeHtml(substr(trim($subMenuItem['name']), 0, 30)) ?>
-                    <?php if (strlen($subMenuItem['name']) > 30): ?>
+                    <?= $escaper->escapeHtml(substr(trim($subMenuItem->getTitle()), 0, 30)) ?>
+                    <?php if (strlen($subMenuItem->getTitle()) > 30): ?>
                         ...
                     <?php endif; ?>
                 </a>

@@ -1,11 +1,12 @@
 {
     "name": "proxi-blue/multi-menu",
     "version": "1.2.2",
-    "description": "MultiDepth Category Menu for Magento 2 compatible with Hyva Theme",
+    "description": "MultiDepth Category Menu for Magento 2 compatible with Hyva Theme and Snowdog Menu manager",
     "type": "magento2-module",
     "require": {
         "magento/framework": "*",
-        "hyva-themes/magento2-theme-module": "<1.1.9"
+        "hyva-themes/magento2-theme-module": "<1.1.9",
+        "snowdog/module-menu": "2.*"
     },
     "license": "MIT",
     "authors": [

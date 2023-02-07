@@ -17,17 +17,20 @@
     <body>
         <referenceBlock name="header-content">
             <referenceBlock name="topmenu_generic" remove="true"/>
-            <block class="Magento\Theme\Block\Html\Topmenu"
+            <block class="Snowdog\Menu\Block\Menu"
                    name="topmenu_multimenu"
                    as="topmenu"
                    template="ProxiBlue_MultiMenu::html/header/topmenu.phtml" ttl="3600">
-                <block name="topmenu_multimenu_desktop"
+                <arguments>
+                    <argument name="menu" xsi:type="string">main-menu</argument>
+                </arguments>
+                <block name="topmenu_multimenu_desktop" class="Snowdog\Menu\Block\Menu"
                        template="ProxiBlue_MultiMenu::html/header/topmenu/menu.phtml" ttl="3600">
-                    <block name="topmenu_multimenu_childitems"
+                    <block name="topmenu_multimenu_childitems" class="Snowdog\Menu\Block\Menu"
                            as="topmenu.childitems"
                            template="ProxiBlue_MultiMenu::html/header/topmenu/childitems.phtml" ttl="3600"/>
                 </block>
-                <block name="topmenu_multimenu_mobile"
+                <block name="topmenu_multimenu_mobile" class="Snowdog\Menu\Block\Menu"
                        template="ProxiBlue_MultiMenu::html/header/topmenu/mobile/menu.phtml" ttl="3600">
                 </block>
                 <block name="topmenu_multimenu_additional"

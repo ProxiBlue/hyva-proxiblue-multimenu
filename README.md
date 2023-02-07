@@ -1,16 +1,17 @@
 # Hyva Compatible Multi Depth Menu based on category structure
 
+NOTE: This is an initial attempt (and ugly) to integrate snowdogmenu manager into this menu.
+I spent a total of 3h on it sofar, so it is not production ready, and will likely change a lot.
+
+Only category menu items work. It is all I needed for the client site I am working on.
 
 ## Introduction
 
-The default Hyva menu is a flat 1 level category menu. I needed a multiple depth menu for a site build.
-This is the end result.
+This is a multiple layer depth menu with Snowdog Menu as the editor.
 
 ## Install
 
 You can install via composer:
-
-Note: use the 1.1.9 branch for Hyva 1.1.9+ (1.3.x release range)
 
 * run: ```composer config repositories.github.repo.repman.io composer https://github.repo.repman.io```
 * use composer ```composer require proxi-blue/multi-menu```
@@ -19,50 +20,11 @@ Note: use the 1.1.9 branch for Hyva 1.1.9+ (1.3.x release range)
 * run: ```./bin/magento setup:di:compile```
 
 
-## Configuration
+## Setup
 
-In admin, 
+* Create a new menu in Admin with the identifier 'main-menu' then add sub menu items
+* You can override the identifier via xml
 
-* Stores->Configuration->General->MultiMenu 
-
-** you can set the Category Depth. This will determine how many levels of pullouts are displayed
-
-** You can set if the category image should be set as an icon to the left of menu item (note: this will add a large scale load of requests to server for the images on page load)
-
-## Adding additional menu items (that are not categories)
-
-You may want to add top level menu items, like example 'Contact Us'
-You can add this by layout xml update in your theme ```default.xml``` layout file. Reference the block name ```topmenu_multimenu_additional```
-
-```
-<referenceBlock name="topmenu_multimenu_additional">
-   <block name="topmenu_multimenu_additional_contactus" as="topmenu.additional.contactus"
-       template="Magento_Theme::html/header/topmenu/additional/contact.phtml" ttl="3600"/>
-</referenceBlock>
-```
-
-In the above example the contact.phtml file is as such:
-
-```
-<?php
-
-use Magento\Framework\View\Element\Template;
-
-/** @var Template $block */
-?>
-
-<button
-    class="hidden 2xl:flex hover:bg-secondary-darker uppercase border-none bg-transparent
-    outline-none focus:outline-none border py-1 rounded-sm flex items-center min-w-32">
-        <span class="pr-1 font-normal flex-1">
-                <a href="<?= $block->getUrl('contact-us') ?>"
-                   title="Contact us"
-                   class="block w-full whitespace-nowrap first:mt-0">
-            Contact
-                </a>
-        </span>
-</button>
-```
 
 ## Usage
 
