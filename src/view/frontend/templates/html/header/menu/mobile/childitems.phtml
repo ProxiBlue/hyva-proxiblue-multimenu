@@ -1,0 +1,96 @@
+<?php
+
+/*
+ * (c) Lucas van Staden <sales@proxiblue.com.au>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * The base menu dropdown was based on https://tailwindcomponents.com/component/nestable-dropdown-menu
+ *
+ */
+
+use Magento\Framework\View\Element\Template;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use ProxiBlue\MultiMenu\ViewModel\Image;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+/** @var Template $block */
+/** @var ViewModelRegistry $viewModels */
+/** @var Escaper $escaper */
+/** @var Image $image */
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+$parentData = $block->getParentData();
+$image = $viewModels->require(Image::class);
+
+?>
+
+<div
+    data-child-id="<?= $escaper->escapeHtmLAttr($block->getChildLevel()) ?>"
+    class="absolute top-0 right-0 z-10 flex flex-col gap-1 w-full h-full p-1 bg-container-lighter"
+    :class="{
+                                'hidden': mobilePanelActiveId !== '<?= /* @noEscape */ (string) $block->getChildLevel() ?>'
+                            }"
+>
+    <ul
+        class="mt-16 transition-transform duration-200 ease-in-out translate-x-full transform"
+        :class="{
+                                    'translate-x-full' : mobilePanelActiveId !== '<?= /* @noEscape */ (string) $block->getChildLevel() ?>',
+                                    'translate-x-0' : mobilePanelActiveId === '<?= /* @noEscape */ (string) $block->getChildLevel() ?>',
+                                }"
+        aria-label="<?= $escaper->escapeHtmlAttr(__('Subcategories')) ?>"
+    >
+        <li>
+            <button
+                type="button"
+                class="flex items-center px-8 py-4 border-b cursor-pointer bg-container border-container w-full border-t"
+                @click="backToMainCategories('<?= /* @noEscape */ $block->getChildLevel() ?>-main')"
+                aria-label="<?= $escaper->escapeHtmlAttr(__('Back to main categories')) ?>"
+            >
+                <?= $heroicons->chevronLeftHtml('', 24, 24, ["aria-hidden" => "true"]); ?>
+                <span class="ml-4">
+                                            <?= $escaper->escapeHtml($parentData['name']) ?>
+                                        </span>
+            </button>
+        </li>
+        <li>
+            <a
+                href="<?= $escaper->escapeUrl($parentData['url']) ?>"
+                title="<?= $escaper->escapeHtmlAttr($parentData['name']) ?>"
+                class="flex items-center w-full px-8 py-4 border-b cursor-pointer
+                                            bg-container-lighter border-container
+                                        "
+            >
+                                        <span class="ml-10">
+                                            <?= $escaper->escapeHtml(__('View All')) ?>
+                                        </span>
+            </a>
+        </li>
+        <?php foreach ($parentData['childData'] as $subMenuItem): ?>
+            <li>
+                <a
+                    href="<?= $escaper->escapeUrl($subMenuItem['url']) ?>"
+                    title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
+                    class="flex items-center w-full px-8 py-4 border-b cursor-pointer
+                                                bg-container-lighter border-container
+                                            "
+                >
+                                            <span class="ml-10 text-base text-gray-700">
+                                                <?= $escaper->escapeHtml($subMenuItem['name']) ?>
+                                            </span>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <button
+        @click="closeMenu()"
+        class="absolute flex justify-end w-16 self-end mb-1 transition-none"
+        aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
+    >
+        <?= $heroicons->xHtml('hidden p-4', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }", "aria-hidden" => "true"]) ?>
+    </button>
+</div>
+

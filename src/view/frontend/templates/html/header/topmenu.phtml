@@ -1,0 +1,29 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\BlockCache;
+use Magento\Framework\View\Element\Template;
+use ProxiBlue\MultiMenu\ViewModel\Navigation;
+
+/** @var Template $block */
+/** @var ViewModelRegistry $viewModels */
+/** @var BlockCache $blockCacheViewModel */
+
+$blockCacheViewModel = $viewModels->require(BlockCache::class);
+
+/** @var Navigation $viewModelNavigation */
+$viewModelNavigation = $viewModels->require(Navigation::class, $block);
+
+// Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
+$block->setData('menu_items',$viewModelNavigation->getNavigation(4));
+
+echo $block->getChildHtml();
+
+// Copy child cache tags to this block so they are added to the block_html cache record
+$block->setData('cache_tags', $viewModelNavigation->getIdentities());

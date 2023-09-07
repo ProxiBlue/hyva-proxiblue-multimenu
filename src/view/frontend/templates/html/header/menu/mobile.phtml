@@ -7,7 +7,7 @@
  */
 
 use Hyva\Theme\Model\ViewModelRegistry;
-use Hyva\Theme\ViewModel\Navigation;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Escaper;
 
@@ -15,58 +15,155 @@ use Magento\Framework\Escaper;
 /** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
 
-/** @var Navigation $viewModelNavigation */
-$viewModelNavigation = $viewModels->require(Navigation::class);
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
 
 $uniqueId = '_' . uniqid();
 
 // Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
-$menuItems = $viewModelNavigation->getNavigation(4);
-$block->setData('cache_tags', $viewModelNavigation->getIdentities());
+
+$menuItems = $block->getParentBlock()->getMenuItems();
 
 ?>
-<div id="nav-mobile" x-data="initMenu()"
-     class="nav-mobile z-20 order-2 sm:order-1 lg:order-2 navigation lg:hidden"
+<nav
+    x-data="initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?>()"
+    @load.window="setActiveMenu($root)"
+    @keydown.window.escape="closeMenu()"
+    class="z-20 order-2 sm:order-1 lg:order-2 navigation lg:hidden w-12 h-12"
+    aria-label="<?= $escaper->escapeHtmlAttr(__('Site navigation')) ?>"
+    role="navigation"
 >
     <!-- mobile -->
-    <div id="nav-mobile-scroll" @load.window="setActiveMenu($el)"
-         class="bg-container-lighter"
-         :class="{'fixed top-0 left-0 w-full' : open}"
-         @toggle-mobile-menu.window="open = !open; moveMenuInDom()"
-         @keydown.window.escape="open=false"
-         @click="handleMobileOpenMenu($event)"
+    <button
+        x-ref="mobileMenuTrigger"
+        @click="openMenu()"
+        :class="{'overflow-x-hidden overflow-y-auto fixed top-0 left-0 w-full' : open}"
+        type="button"
+        aria-label="<?= $escaper->escapeHtmlAttr(__('Open menu')) ?>"
+        aria-haspopup="menu"
+        :aria-expanded="open"
+        :hidden="open"
     >
-        <div class="flex items-baseline justify-between menu-icon">
-            <div class="flex justify-end w-full">
-                <a @click="$dispatch('toggle-mobile-menu')"
-                   class="flex items-center justify-center cursor-pointer"
-                   :class="{ 'ml-auto': open }">
-                    <svg class="hidden w-16 h-16 p-4 fill-current"
-                         :class="{ 'hidden' : !open, 'block': open }"
-                         xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                         viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                              d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0
-                          1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828
-                          4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z">
-                        </path>
-                    </svg>
-                    <svg class="block w-12 h-12 p-3 fill-current"
-                         :class="{ 'hidden' : open, 'block': !open }"
-                         xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                         viewBox="0 0 20 20">
-                        <path
-                            d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z">
-                        </path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-
-        <nav id="nav-mobile-container"
-             class="hidden w-full duration-150 ease-in-out transform border-t transition-display border-container"
-             :class="{ 'hidden' : !open }">
-        </nav>
+        <?= $heroicons->menuHtml('p-3', 48, 48, [":class" => "{ 'hidden' : open, 'block': !open }", "aria-hidden" => "true"]) ?>
+    </button>
+    <div
+        x-ref="mobileMenuNavLinks"
+        class="
+            fixed top-0 right-0 w-full h-full p-1 flex
+            flex-col border-t border-container bg-container-lighter
+            overflow-y-auto overflow-x-hidden
+        "
+        :class="{ 'hidden' : !open }"
+        :aria-hidden="open ? 'false' : 'true'"
+        role="dialog"
+        aria-modal="true"
+    >
+        <ul
+            class="border-t flex flex-col gap-y-1 mt-16"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Site navigation links')) ?>"
+        >
+            <?php foreach ($menuItems as $index => $menuItem): ?>
+                <li
+                    data-child-id="<?= $escaper->escapeHtmLAttr($index) ?>-main"
+                    class="level-0"
+                >
+                    <div
+                        class="flex items-center transition-transform duration-150 ease-in-out transform"
+                        :class="{
+                            '-translate-x-full' : mobilePanelActiveId,
+                            'translate-x-0' : !mobilePanelActiveId
+                        }"
+                    >
+                        <a
+                            class="flex items-center w-full px-8 py-4 border-b cursor-pointer
+                                bg-container-lighter border-container level-0
+                            "
+                            href="<?= $escaper->escapeUrl($menuItem['url']) ?>"
+                            title="<?= $escaper->escapeHtmlAttr($menuItem['name']) ?>"
+                        >
+                            <?= $escaper->escapeHtml($menuItem['name']) ?>
+                        </a>
+                        <?php if (!empty($menuItem['childData'])): ?>
+                            <button
+                                @click="openSubcategory('<?= /* @noEscape */ $index ?>')"
+                                class="absolute right-0 flex items-center justify-center w-11 h-11 mr-8 cursor-pointer
+                                bg-container-lighter border-container"
+                                aria-label="<?= $escaper->escapeHtmlAttr(__('Open %1 subcategories', $menuItem['name'])) ?>"
+                                aria-haspopup="true"
+                                :aria-expanded="mobilePanelActiveId === '<?= /* @noEscape */ (string) $index ?>'"
+                            >
+                                <div class="w-8 h-8 border rounded">
+                                    <?= $heroicons->chevronRightHtml('w-full h-full p-1', 24, 24, ["aria-hidden" => "true"]) ?>
+                                </div>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                    <?php if (!empty($menuItem['childData'])): ?>
+                        <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile_childitems')
+                            ->setData('parent_data', $menuItem)
+                            ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
+                            ->setData('child_level', 1)
+                            ->setData('show_icons', $block->getShowIcons())
+                            ->toHtml(); ?>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <button
+            @click="closeMenu()"
+            class="absolute flex justify-end w-16 self-end mb-1"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
+            type="button"
+        >
+            <?= $heroicons->xHtml('hidden p-4', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }", "aria-hidden" => "true"]) ?>
+        </button>
     </div>
-</div>
+</nav>
+<script>
+    'use strict';
 
+    const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => {
+        return {
+            mobilePanelActiveId: null,
+            open: false,
+            setActiveMenu(menuNode) {
+                Array.from(menuNode.querySelectorAll('a')).filter(link => {
+                    return link.href === window.location.href.split('?')[0];
+                }).map(item => {
+                    item.classList.add('underline');
+                    item.closest('li.level-0') &&
+                    item.closest('li.level-0').querySelector('a.level-0').classList.add('underline');
+                });
+            },
+            openMenu() {
+                this.open = true
+                this.$nextTick(() => hyva.trapFocus(this.$refs['mobileMenuNavLinks']));
+                // Prevent from body scrolling while mobile menu opened
+                document.body.style.position = 'fixed';
+            },
+            closeMenu() {
+                document.body.style.position = '';
+
+                if (this.open) {
+                    this.$nextTick(() => this.$refs['mobileMenuTrigger'].focus() || hyva.releaseFocus());
+                }
+
+                this.open = false
+                this.mobilePanelActiveId = null
+            },
+            openSubcategory(index) {
+                const menuNodeRef = document.querySelector('[data-child-id=' + index + ']')
+                this.mobilePanelActiveId = this.mobilePanelActiveId === index ? 0 : index
+                this.$nextTick(() => hyva.trapFocus(menuNodeRef))
+            },
+            backToMainCategories(index) {
+                const menuNodeRef = document.querySelector('[data-child-id=' + index + ']')
+                this.mobilePanelActiveId = 0
+                this.$nextTick(() => {
+                    hyva.trapFocus(this.$refs['mobileMenuNavLinks'])
+                    menuNodeRef.querySelector('a').focus()
+                })
+            }
+        }
+    }
+</script>
