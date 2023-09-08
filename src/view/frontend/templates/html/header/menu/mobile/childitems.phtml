@@ -10,11 +10,11 @@
  *
  */
 
-use Magento\Framework\View\Element\Template;
 use Hyva\Theme\Model\ViewModelRegistry;
-use Magento\Framework\Escaper;
-use ProxiBlue\MultiMenu\ViewModel\Image;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use ProxiBlue\MultiMenu\ViewModel\Image;
 
 /** @var Template $block */
 /** @var ViewModelRegistry $viewModels */
@@ -23,74 +23,84 @@ use Hyva\Theme\ViewModel\HeroiconsOutline;
 
 /** @var HeroiconsOutline $heroicons */
 $heroicons = $viewModels->require(HeroiconsOutline::class);
-$parentData = $block->getParentData();
 $image = $viewModels->require(Image::class);
+$menuItem = $block->getMenuItem();
+$index = $block->getMenuIndex();
+$parentIndex = $block->getParentIndex();
+$menuLevel = $block->getMenuLevel();
 
 ?>
 
 <div
-    data-child-id="<?= $escaper->escapeHtmLAttr($block->getChildLevel()) ?>"
-    class="absolute top-0 right-0 z-10 flex flex-col gap-1 w-full h-full p-1 bg-container-lighter"
-    :class="{
-                                'hidden': mobilePanelActiveId !== '<?= /* @noEscape */ (string) $block->getChildLevel() ?>'
-                            }"
+    data-menu-id="<?= $escaper->escapeHtmLAttr($index) ?>" data-parent-id="<?= $escaper->escapeHtmLAttr($parentIndex) ?>"
+    class="child-menu-container absolute top-0 right-0 z-10 flex flex-col gap-1 w-full h-full p-1 bg-container-lighter"
+    :class="{ 'hidden': getMobilePanelShow('<?= /* @noEscape */(string) $parentIndex ?>', '<?= /* @noEscape */(string) $index ?>') === false }"
 >
     <ul
-        class="mt-16 transition-transform duration-200 ease-in-out translate-x-full transform"
-        :class="{
-                                    'translate-x-full' : mobilePanelActiveId !== '<?= /* @noEscape */ (string) $block->getChildLevel() ?>',
-                                    'translate-x-0' : mobilePanelActiveId === '<?= /* @noEscape */ (string) $block->getChildLevel() ?>',
-                                }"
+        class="child-menu-container-ul mt-16 transition-transform duration-200 ease-in-out translate-x-full transform "
+        :class="{ 'translate-x-full' : getMobilePanelShowUl('<?= /* @noEscape */(string) $parentIndex ?>', '<?= /* @noEscape */(string) $index ?>') === false }"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Subcategories')) ?>"
     >
         <li>
             <button
                 type="button"
                 class="flex items-center px-8 py-4 border-b cursor-pointer bg-container border-container w-full border-t"
-                @click="backToMainCategories('<?= /* @noEscape */ $block->getChildLevel() ?>-main')"
-                aria-label="<?= $escaper->escapeHtmlAttr(__('Back to main categories')) ?>"
+                @click="backToParent('<?= /* @noEscape */$index ?>-main')"
+                aria-label="<?= $escaper->escapeHtmlAttr(__('Back to parent %s',
+                    $menuItem['name'])) ?>"
             >
-                <?= $heroicons->chevronLeftHtml('', 24, 24, ["aria-hidden" => "true"]); ?>
+                <?= $heroicons->chevronLeftHtml('', 24, 24,
+                    ["aria-hidden" => "true"]); ?>
                 <span class="ml-4">
-                                            <?= $escaper->escapeHtml($parentData['name']) ?>
+                                            <?= $escaper->escapeHtml($menuItem['name']) ?>
                                         </span>
             </button>
         </li>
-        <li>
-            <a
-                href="<?= $escaper->escapeUrl($parentData['url']) ?>"
-                title="<?= $escaper->escapeHtmlAttr($parentData['name']) ?>"
-                class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                                            bg-container-lighter border-container
-                                        "
+        <?php foreach ($menuItem['childData'] as $subMenuIndex => $subMenuItem): ?>
+            <li data-child-id="<?= $escaper->escapeHtmLAttr($subMenuIndex) ?>-main"
+                class="level-<?= $menuLevel ?>"
             >
-                                        <span class="ml-10">
-                                            <?= $escaper->escapeHtml(__('View All')) ?>
-                                        </span>
-            </a>
-        </li>
-        <?php foreach ($parentData['childData'] as $subMenuItem): ?>
-            <li>
-                <a
-                    href="<?= $escaper->escapeUrl($subMenuItem['url']) ?>"
-                    title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
-                    class="flex items-center w-full px-8 py-4 border-b cursor-pointer
+                <div
+                    class="flex items-center transition-transform duration-150 ease-in-out transform"
+                >
+                    <a
+                        href="<?= $escaper->escapeUrl($subMenuItem['url']) ?>"
+                        title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
+                        class="flex items-center w-full px-8 py-4 border-b cursor-pointer
                                                 bg-container-lighter border-container
                                             "
-                >
-                                            <span class="ml-10 text-base text-gray-700">
+                    >
+                                            <span
+                                                class="ml-10 text-base text-gray-700">
                                                 <?= $escaper->escapeHtml($subMenuItem['name']) ?>
                                             </span>
-                </a>
+                    </a>
+                    <?php if (!empty($subMenuItem['childData'])): ?>
+                        <button
+                            @click="openSubcategory('<?= /* @noEscape */$index ?>','<?= /* @noEscape */$subMenuIndex ?>')"
+                            class="absolute right-0 flex items-center justify-center w-11 h-11 mr-8 cursor-pointer
+                                bg-container-lighter border-container"
+                            aria-label="<?= $escaper->escapeHtmlAttr(__('Open %1 subcategories',
+                                $subMenuItem['name'])) ?>"
+                            aria-haspopup="true"
+                        >
+                            <div class="w-8 h-8 border rounded">
+                                <?= $heroicons->chevronRightHtml('w-full h-full p-1',
+                                    24, 24, ["aria-hidden" => "true"]) ?>
+                            </div>
+                        </button>
+                    <?php endif; ?>
+                </div>
+                <?php if (!empty($subMenuItem['childData'])): ?>
+                    <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile_childitems')
+                        ->setData('parent_index', $index)
+                        ->setData('menu_index', $subMenuIndex)
+                        ->setData('menu_item', $subMenuItem)
+                        ->setData('menu_level', $menuLevel + 1)
+                        ->toHtml(); ?>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
-    <button
-        @click="closeMenu()"
-        class="absolute flex justify-end w-16 self-end mb-1 transition-none"
-        aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
-    >
-        <?= $heroicons->xHtml('hidden p-4', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }", "aria-hidden" => "true"]) ?>
-    </button>
 </div>
 

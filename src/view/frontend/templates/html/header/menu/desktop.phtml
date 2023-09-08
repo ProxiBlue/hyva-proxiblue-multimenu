@@ -18,7 +18,7 @@ use Magento\Framework\Escaper;
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
 
 // Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
-$menuItems = $this->getParentBlock()->getMenuItems();
+$menuItems = $block->getParentBlock()->getMenuItems();
 $uniqueId = '_' . uniqid();
 
 ?>

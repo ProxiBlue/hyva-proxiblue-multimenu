@@ -1,10 +1,4 @@
 <?php
-/**
- * Hyvä Themes - https://hyva.io
- * Copyright © Hyvä Themes 2020-present. All rights reserved.
- * This product is licensed per Magento install
- * See https://hyva.io/license
- */
 
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
@@ -68,7 +62,7 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                     class="level-0"
                 >
                     <div
-                        class="flex items-center transition-transform duration-150 ease-in-out transform"
+                        class="top-level-visible flex items-center transition-transform duration-150 ease-in-out transform"
                         :class="{
                             '-translate-x-full' : mobilePanelActiveId,
                             'translate-x-0' : !mobilePanelActiveId
@@ -85,12 +79,11 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                         </a>
                         <?php if (!empty($menuItem['childData'])): ?>
                             <button
-                                @click="openSubcategory('<?= /* @noEscape */ $index ?>')"
+                                @click="openSubcategory(0, '<?= /* @noEscape */ $index ?>')"
                                 class="absolute right-0 flex items-center justify-center w-11 h-11 mr-8 cursor-pointer
                                 bg-container-lighter border-container"
                                 aria-label="<?= $escaper->escapeHtmlAttr(__('Open %1 subcategories', $menuItem['name'])) ?>"
                                 aria-haspopup="true"
-                                :aria-expanded="mobilePanelActiveId === '<?= /* @noEscape */ (string) $index ?>'"
                             >
                                 <div class="w-8 h-8 border rounded">
                                     <?= $heroicons->chevronRightHtml('w-full h-full p-1', 24, 24, ["aria-hidden" => "true"]) ?>
@@ -100,10 +93,10 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                     </div>
                     <?php if (!empty($menuItem['childData'])): ?>
                         <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile_childitems')
-                            ->setData('parent_data', $menuItem)
-                            ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
-                            ->setData('child_level', 1)
-                            ->setData('show_icons', $block->getShowIcons())
+                            ->setData('parent_index', 0)
+                            ->setData('menu_index', $index)
+                            ->setData('menu_item', $menuItem)
+                            ->setData('menu_level', 1)
                             ->toHtml(); ?>
                     <?php endif; ?>
                 </li>
@@ -125,6 +118,7 @@ $menuItems = $block->getParentBlock()->getMenuItems();
     const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => {
         return {
             mobilePanelActiveId: null,
+            mobileParentIndex: 0,
             open: false,
             setActiveMenu(menuNode) {
                 Array.from(menuNode.querySelectorAll('a')).filter(link => {
@@ -151,19 +145,37 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                 this.open = false
                 this.mobilePanelActiveId = null
             },
-            openSubcategory(index) {
-                const menuNodeRef = document.querySelector('[data-child-id=' + index + ']')
-                this.mobilePanelActiveId = this.mobilePanelActiveId === index ? 0 : index
+            openSubcategory(parent, child) {
+                const menuNodeRef = document.querySelector('[data-menu-id=' + child + ']')
+                let parentId = menuNodeRef.getAttribute('data-parent-id')
+                this.mobilePanelActiveId = child
+                this.mobileParentIndex = parent
                 this.$nextTick(() => hyva.trapFocus(menuNodeRef))
             },
-            backToMainCategories(index) {
+            backToParent(index) {
                 const menuNodeRef = document.querySelector('[data-child-id=' + index + ']')
                 this.mobilePanelActiveId = 0
                 this.$nextTick(() => {
                     hyva.trapFocus(this.$refs['mobileMenuNavLinks'])
                     menuNodeRef.querySelector('a').focus()
                 })
-            }
+            },
+            getMobilePanelShow(parent,current) {
+                if(this.mobilePanelActiveId) {
+                    var isCurrent = this.mobilePanelActiveId === current || this.mobileParentIndex === current;
+                    var isParent = this.mobileParentIndex === parent;
+                    return isCurrent;
+                }
+                return false;
+            },
+            getMobilePanelShowUl(parent,current) {
+                if(this.mobilePanelActiveId) {
+                    var isCurrent = this.mobilePanelActiveId === current || this.mobileParentIndex === current;
+                    var isParent = this.mobileParentIndex === parent;
+                    return isCurrent;
+                }
+                return false;
+            },
         }
     }
 </script>
