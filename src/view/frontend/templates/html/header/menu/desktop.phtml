@@ -102,7 +102,7 @@ $uniqueId = '_' . uniqid();
                     })
                         .then(() => {
                             if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
-                                UlElm.style.right = domElm.offsetWidth + 12 + "px";
+                                UlElm.style.right = domElm.offsetWidth + 7 + "px";
                                 UlElm.style.zIndex = -1;
                                 UlElm.classList.add('slide-to-left')
                                 this.slideToLeft = true;

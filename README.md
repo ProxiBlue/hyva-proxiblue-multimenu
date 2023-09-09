@@ -5,11 +5,17 @@
 The default Hyva menu is a flat 1 level category menu. I needed a multiple depth menu for a site build.
 This is the end result.
 
+Note that as of version 1.5 the mobile menu has been completely changed to a new look/working 
+which is more comaptible with mobile devices. The old one was just bed, i'll admit that!
+
+Version was jumped to 1.5 since 1.4 was a pre-release of stalled work to make menu comaptible with snowdog menu editor.
+That is still work that will happen, but I will abandone 1.4 version range.
+
+Note: use the 1.1.9 branch for Hyva 1.1.9+ (< 1.2) compatibility
+
 ## Install
 
 You can install via composer:
-
-Note: use the 1.1.9 branch for Hyva 1.1.9+ (1.3.x release range)
 
 * run: `composer config repositories.github.repo.repman.io composer https://github.repo.repman.io`
 * use composer `composer require proxi-blue/multi-menu`
@@ -17,6 +23,12 @@ Note: use the 1.1.9 branch for Hyva 1.1.9+ (1.3.x release range)
 * run: `./bin/magento setup:upgrade`
 * run: `./bin/magento setup:di:compile`
 
+## Requirements
+
+* Hyva Theme > 1.2 (latest was self tested on 1.3) (unsupported branch and versions still exist for pre 1.2 release)
+* Hyva npm package > 1.0.4 (latest was self tested on 1.0.9)
+
+You can check your version by using command ```npm list @hyva-themes/hyva-modules``` in your theme tailwind folder.
 
 ## Configuration
 
@@ -69,15 +81,11 @@ To note is that the menu will detect the screen width end, and if any slide out 
 
 ![image](https://user-images.githubusercontent.com/4994260/119622849-24d12900-be3a-11eb-8c28-5b2971edf50f.png)
 
-Mobile view with Category Icons enabled
-
-![image](https://user-images.githubusercontent.com/4994260/119846015-57634a80-bf3c-11eb-809b-42bf56f8395d.png)
-
 ## Notes
 
 I am not a master on frontend. Much can likely be improved.
 
-This is not pure alpineJS. There is a portion of vanilla JS involved. SOme can likely be refactored to be more pure Alpine, 
+This is not pure alpineJS. There is a portion of vanilla JS involved. Some can likely be refactored to be more pure Alpine, 
 but I am still learning and don't know all the moving parts for alpine, as yet.
 As my knowledge progress I plan to refactor parts.
 

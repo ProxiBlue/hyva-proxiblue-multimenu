@@ -1,6 +1,4 @@
-.fixed-position {
-    position: fixed;
-}
+
 
 .page-header .nav-desktop li > ul {
     transform: translatex(100%) scale(0);
