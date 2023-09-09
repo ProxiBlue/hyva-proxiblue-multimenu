@@ -15,25 +15,30 @@
         <css src="ProxiBlue_MultiMenu::css/menu.css" defer="defer"/>
     </head>
     <body>
-        <referenceBlock name="header-content">
-            <referenceBlock name="topmenu_generic" remove="true"/>
-            <block class="Magento\Theme\Block\Html\Topmenu"
-                   name="topmenu_multimenu"
-                   as="topmenu"
-                   template="ProxiBlue_MultiMenu::html/header/topmenu.phtml" ttl="3600">
-                <block name="topmenu_multimenu_desktop"
-                       template="ProxiBlue_MultiMenu::html/header/topmenu/menu.phtml" ttl="3600">
-                    <block name="topmenu_multimenu_childitems"
-                           as="topmenu.childitems"
-                           template="ProxiBlue_MultiMenu::html/header/topmenu/childitems.phtml" ttl="3600"/>
-                </block>
-                <block name="topmenu_multimenu_mobile"
-                       template="ProxiBlue_MultiMenu::html/header/topmenu/mobile/menu.phtml" ttl="3600">
-                </block>
+        <referenceBlock name="topmenu_generic">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">ProxiBlue_MultiMenu::html/header/topmenu.phtml
+                </argument>
+            </action>
+
+            <referenceBlock name="topmenu_desktop">
+                <action method="setTemplate">
+                    <argument name="template" xsi:type="string">ProxiBlue_MultiMenu::html/header/menu/desktop.phtml</argument>
+                </action>
+                <block name="topmenu_multimenu_desktop_childitems" as="topmenu.desktop.childitems"
+                       template="ProxiBlue_MultiMenu::html/header/menu/desktop/childitems.phtml" ttl="3600"/>
                 <block name="topmenu_multimenu_additional"
-                       as="topmenu.additional"
-                       template="ProxiBlue_MultiMenu::html/header/topmenu/additional.phtml" ttl="3600"/>
-            </block>
+                       as="topmenu.additional.items"
+                       template="ProxiBlue_MultiMenu::html/header/menu/additional.phtml" ttl="3600"/>
+            </referenceBlock>
+            <referenceBlock name="topmenu_mobile">
+                <action method="setTemplate">
+                    <argument name="template" xsi:type="string">ProxiBlue_MultiMenu::html/header/menu/mobile.phtml</argument>
+                </action>
+                <block name="topmenu_multimenu_mobile_childitems" as="topmenu.mobile.childitems"
+                       template="ProxiBlue_MultiMenu::html/header/menu/mobile/childitems.phtml" ttl="3600"/>
+            </referenceBlock>
+
         </referenceBlock>
     </body>
 </page>

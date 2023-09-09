@@ -5,135 +5,28 @@
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  *
- * The base menu dropdown was based on https://tailwindcomponents.com/component/nestable-dropdown-menu
  *
  */
 
 
 use Hyva\Theme\Model\ViewModelRegistry;
-use ProxiBlue\MultiMenu\ViewModel\Navigation;
-use Magento\Framework\Escaper;
+use Hyva\Theme\ViewModel\BlockCache;
 use Magento\Framework\View\Element\Template;
+use ProxiBlue\MultiMenu\ViewModel\Navigation;
 
 /** @var Template $block */
-/** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
+/** @var BlockCache $blockCacheViewModel */
+
+$blockCacheViewModel = $viewModels->require(BlockCache::class);
 
 /** @var Navigation $viewModelNavigation */
-$viewModelNavigation = $viewModels->require(Navigation::class);
-$menuItems = $viewModelNavigation->getNavigation($viewModelNavigation->getCategoryDepth());
+$viewModelNavigation = $viewModels->require(Navigation::class, $block);
 
-?>
-<div class="z-30 order-2 sm:order-1 lg:order-2 navigation">
-    <!-- mobile -->
-    <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile')
-        ->setData('menu_items', $menuItems)
-        ->setData('show_icons', $viewModelNavigation->getCanShowIcons())
-        ->toHtml(); ?>
+// Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
+$block->setData('menu_items',$viewModelNavigation->getNavigation(4));
 
-    <!-- desktop -->
-    <div x-ref="nav-desktop" data-navtype="nav-desktop"
-         class="lg:pl-0 lg:pr-0 hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
-        <nav id="nav-desktop-container" class="nav-desktop flex">
-            <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop')
-                ->setData('menu_items', $menuItems)
-                ->setData('show_icons', $viewModelNavigation->getCanShowIcons())
-                ->toHtml(); ?>
-            <?= $block->getChildHtml('topmenu.additional'); ?>
-        </nav>
-    </div>
+echo $block->getChildHtml();
 
-</div>
-<script>
-    'use strict';
-
-    const initHeaderNavigation = () => {
-        return {
-            open: false,
-            slideToLeft: false,
-            activeMenu: 'nav-desktop',
-            setActiveMenu(menuNode) {
-                Array.from(menuNode.querySelectorAll('a')).filter(link => {
-                    return link.href === window.location.href.split('?')[0];
-                }).map(item => {
-                    item.classList.add('underline');
-                    item.closest('div.level-0') &&
-                    item.closest('div.level-0').querySelector('a.level-0').classList.add('underline');
-                });
-                this.activeMenu = menuNode.dataset.navtype;
-            },
-            checkSlideDirection(event) {
-                let domElm = event.target
-                if (domElm.nextElementSibling) {
-                    let UlElm = domElm.nextElementSibling;
-                    return new Promise((resolve, reject) => {
-                        UlElm.classList.remove('slide-to-left');
-                        UlElm.classList.remove('slide-to-right')
-                        return resolve();
-                    })
-                        .then(() => {
-                            if ((domElm.getBoundingClientRect().right + UlElm.offsetWidth) > window.innerWidth) {
-                                UlElm.style.zIndex = -1;
-                                UlElm.classList.add('slide-to-left')
-                                this.slideToLeft = true;
-                            } else {
-                                UlElm.classList.add('slide-to-right');
-                                this.slideToLeft = false;
-                            }
-                        });
-
-                }
-            },
-            handleMobileOpenMenu(event) {
-                this.moveMenuInDom();
-                if (event.target.localName == 'svg') {
-                    var domElm = event.target.parentElement.parentElement;
-                } else {
-                    var domElm = event.target.parentElement.parentElement.parentElement;
-                }
-                if (domElm.nextElementSibling) {
-                    let UlElm = domElm.nextElementSibling;
-                    let parent = domElm.offsetParent
-                    if (parent.classList.contains('menu-active')) {
-                        parent.classList.remove('menu-active');
-                        domElm.classList.remove('menu-active');
-                        UlElm.classList.remove('open-down');
-                    } else {
-                        parent.classList.add('menu-active');
-                        domElm.classList.add('menu-active');
-                        UlElm.classList.add('open-down');
-                    }
-
-                }
-
-            },
-            moveMenuInDom() {
-                if (this.open === true) {
-                    this.manipulateDOM('nav-mobile-container','nav-desktop-container')
-                    document.getElementById('html-body').classList.add('fixed-position')
-                    document.getElementById('nav-mobile').classList.add('mobile-scroll')
-                } else {
-                    this.manipulateDOM('nav-desktop-container','nav-mobile-container')
-                    document.getElementById('html-body').classList.remove('fixed-position')
-                    document.getElementById('nav-mobile').classList.remove('mobile-scroll')
-                }
-            },
-            manipulateDOM(to,from) {
-                var NavElm = document.getElementById(to);
-                if (NavElm.innerHTML.trim() == '') {
-                    let srcElm = document.getElementById(from);
-                    return new Promise((resolve, reject) => {
-                        NavElm.append(...srcElm.childNodes);
-                        return resolve();
-                    })
-                        .then(() => {
-                            Alpine.discoverUninitializedComponents(function (el) {
-                                Alpine.initializeComponent(el)
-                            })
-                        });
-                }
-            }
-
-        }
-    }
-</script>
+// Copy child cache tags to this block so they are added to the block_html cache record
+$block->setData('cache_tags', $viewModelNavigation->getIdentities());
