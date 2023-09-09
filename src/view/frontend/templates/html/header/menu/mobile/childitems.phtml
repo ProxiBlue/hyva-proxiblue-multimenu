@@ -6,7 +6,7 @@
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  *
- * The base menu dropdown was based on https://tailwindcomponents.com/component/nestable-dropdown-menu
+ * The base menu dropdown was based on default hyva mobile menu
  *
  */
 
@@ -30,34 +30,64 @@ $parentIndex = $block->getParentIndex();
 $menuLevel = $block->getMenuLevel();
 
 ?>
-
 <div
-    data-menu-id="<?= $escaper->escapeHtmLAttr($index) ?>" data-parent-id="<?= $escaper->escapeHtmLAttr($parentIndex) ?>"
+    data-menu-id="<?= $escaper->escapeHtmLAttr($index) ?>"
+    data-parent-id="<?= $escaper->escapeHtmLAttr($parentIndex) ?>"
     class="child-menu-container absolute top-0 right-0 z-10 flex flex-col gap-1 w-full h-full p-1 bg-container-lighter"
-    :class="{ 'hidden': getMobilePanelShow('<?= /* @noEscape */(string) $parentIndex ?>', '<?= /* @noEscape */(string) $index ?>') === false }"
+    :class="{ 'hidden': getMobilePanelShow('<?= /* @noEscape */
+    (string) $parentIndex ?>', '<?= /* @noEscape */
+    (string) $index ?>') === false }"
 >
     <ul
-        class="child-menu-container-ul mt-16 transition-transform duration-200 ease-in-out translate-x-full transform "
-        :class="{ 'translate-x-full' : getMobilePanelShowUl('<?= /* @noEscape */(string) $parentIndex ?>', '<?= /* @noEscape */(string) $index ?>') === false }"
+        class="child-menu-container-ul transition-transform duration-200 ease-in-out translate-x-full transform "
+        :class="{ 'translate-x-full' : getMobilePanelShow('<?= /* @noEscape */
+        (string) $parentIndex ?>', '<?= /* @noEscape */
+        (string) $index ?>') === false }"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Subcategories')) ?>"
     >
-        <li>
-            <button
-                type="button"
-                class="flex items-center px-8 py-4 border-b cursor-pointer bg-container border-container w-full border-t"
-                @click="backToParent('<?= /* @noEscape */$index ?>-main')"
-                aria-label="<?= $escaper->escapeHtmlAttr(__('Back to parent %s',
-                    $menuItem['name'])) ?>"
-            >
-                <?= $heroicons->chevronLeftHtml('', 24, 24,
-                    ["aria-hidden" => "true"]); ?>
-                <span class="ml-4">
-                                            <?= $escaper->escapeHtml($menuItem['name']) ?>
-                                        </span>
-            </button>
+        <?php if ($parentIndex == 'top-level'): ?>
+            <li>
+                <button
+                    type="button"
+                    class="flex items-center px-8 py-4 border-b cursor-pointer bg-container border-container w-full"
+                    @click="backToParent('top-level')"
+                    aria-label="<?= $escaper->escapeHtmlAttr(__('Back to top level menu') . $menuItem['name']) ?>"
+                >
+                    <?= $heroicons->chevronLeftHtml('', 24, 24,
+                        ["aria-hidden" => "true"]); ?>
+                    <span class="ml-4">
+                    <?= $escaper->escapeHtmlAttr(__('Back to main menu')) ?>
+                </span>
+                </button>
+            </li>
+        <?php else:
+            $baseMenuItems = $block->getParentBlock()
+                ->getParentBlock()
+                ->getMenuItems();
+            ?>
+            <li>
+                <button
+                    type="button"
+                    class="flex items-center px-8 py-4 border-b cursor-pointer bg-container border-container w-full"
+                    @click="backToParent('<?= /* @noEscape */
+                    $parentIndex ?>')"
+                    aria-label="<?= $escaper->escapeHtmlAttr(__('Back to parent top level') . $menuItem['name']) ?>"
+                >
+                    <?= $heroicons->chevronLeftHtml('', 24, 24,
+                        ["aria-hidden" => "true"]); ?>
+                    <span class="ml-4">
+                    <?= $escaper->escapeHtmlAttr(__('Back to ')) ?> <?= $escaper->escapeHtml($baseMenuItems[$parentIndex]['name']) ?>
+                </span>
+                </button>
+            </li>
+        <?php endif; ?>
+        <li class="menu-header border-b text-center pt-4 pb-4">
+            <span
+                class="menu-header-text font-bold"><?= $escaper->escapeHtml($menuItem['name']) ?></span>
         </li>
         <?php foreach ($menuItem['childData'] as $subMenuIndex => $subMenuItem): ?>
             <li data-child-id="<?= $escaper->escapeHtmLAttr($subMenuIndex) ?>-main"
+                data-parent-id="<?= $escaper->escapeHtmLAttr($parentIndex) ?>"
                 class="level-<?= $menuLevel ?>"
             >
                 <div
@@ -77,7 +107,9 @@ $menuLevel = $block->getMenuLevel();
                     </a>
                     <?php if (!empty($subMenuItem['childData'])): ?>
                         <button
-                            @click="openSubcategory('<?= /* @noEscape */$index ?>','<?= /* @noEscape */$subMenuIndex ?>')"
+                            @click="openSubcategory('<?= /* @noEscape */
+                            $index ?>','<?= /* @noEscape */
+                            $subMenuIndex ?>')"
                             class="absolute right-0 flex items-center justify-center w-11 h-11 mr-8 cursor-pointer
                                 bg-container-lighter border-container"
                             aria-label="<?= $escaper->escapeHtmlAttr(__('Open %1 subcategories',
@@ -92,7 +124,8 @@ $menuLevel = $block->getMenuLevel();
                     <?php endif; ?>
                 </div>
                 <?php if (!empty($subMenuItem['childData'])): ?>
-                    <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile_childitems')
+                    <?= $block->getLayout()
+                        ->getBlock('topmenu_multimenu_mobile_childitems')
                         ->setData('parent_index', $index)
                         ->setData('menu_index', $subMenuIndex)
                         ->setData('menu_item', $subMenuItem)
@@ -102,5 +135,37 @@ $menuLevel = $block->getMenuLevel();
             </li>
         <?php endforeach; ?>
     </ul>
+    <div
+        class="mobile-action-container absolute flex justify-end w-16 self-end mb-1 transition-none">
+        <?php if ($parentIndex != 'top-level'): ?>
+            <button
+                @click="backToTopMenu()"
+                class="inline"
+                aria-label="<?= $escaper->escapeHtmlAttr(__('Back to top menu')) ?>"
+                :class="{ 'hidden': getCloseMenuShow('<?= /* @noEscape */
+                (string) $index ?>') === false }"
+            >
+                <?= $heroicons->chevronDoubleLeftHtml
+                ('inline', 24, 24,
+                    [
+                        "aria-hidden" => "true",
+                    ]
+                );
+                ?>
+            </button>
+        <?php endif; ?>
+        <button
+            @click="closeMenu()"
+            class="inline"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
+            :class="{ 'hidden': getCloseMenuShow('<?= /* @noEscape */
+            (string) $index ?>') === false }"
+        >
+            <?= $heroicons->xHtml('hidden p-4', 64, 64, [
+                ":class" => "{ 'hidden' : !open, 'block': open }",
+                "aria-hidden" => "true",
+            ]) ?>
+        </button>
+    </div>
 </div>
 

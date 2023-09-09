@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * (c) Lucas van Staden <sales@proxiblue.com.au>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * The base menu dropdown was based on hyva default mobile menu
+ *
+ */
+
+
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
 use Magento\Framework\View\Element\Template;
@@ -58,7 +69,7 @@ $menuItems = $block->getParentBlock()->getMenuItems();
         >
             <?php foreach ($menuItems as $index => $menuItem): ?>
                 <li
-                    data-child-id="<?= $escaper->escapeHtmLAttr($index) ?>-main"
+                    data-menu-id="top-level"
                     class="level-0"
                 >
                     <div
@@ -93,7 +104,7 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                     </div>
                     <?php if (!empty($menuItem['childData'])): ?>
                         <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile_childitems')
-                            ->setData('parent_index', 0)
+                            ->setData('parent_index', 'top-level')
                             ->setData('menu_index', $index)
                             ->setData('menu_item', $menuItem)
                             ->setData('menu_level', 1)
@@ -108,7 +119,7 @@ $menuItems = $block->getParentBlock()->getMenuItems();
             aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
             type="button"
         >
-            <?= $heroicons->xHtml('hidden p-4', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }", "aria-hidden" => "true"]) ?>
+            <?= $heroicons->xHtml('hidden p-4 text-black', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }", "aria-hidden" => "true"]) ?>
         </button>
     </div>
 </nav>
@@ -153,8 +164,14 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                 this.$nextTick(() => hyva.trapFocus(menuNodeRef))
             },
             backToParent(index) {
-                const menuNodeRef = document.querySelector('[data-child-id=' + index + ']')
-                this.mobilePanelActiveId = 0
+                const menuNodeRef = document.querySelector('[data-menu-id=' + index + ']')
+                if(index == 'top-level') {
+                    this.mobilePanelActiveId = null
+                    this.mobileParentIndex = 0
+                    this.$nextTick(() => hyva.trapFocus(this.$refs['mobileMenuNavLinks']))
+                    return;
+                }
+                this.mobilePanelActiveId = index;
                 this.$nextTick(() => {
                     hyva.trapFocus(this.$refs['mobileMenuNavLinks'])
                     menuNodeRef.querySelector('a').focus()
@@ -162,20 +179,22 @@ $menuItems = $block->getParentBlock()->getMenuItems();
             },
             getMobilePanelShow(parent,current) {
                 if(this.mobilePanelActiveId) {
-                    var isCurrent = this.mobilePanelActiveId === current || this.mobileParentIndex === current;
-                    var isParent = this.mobileParentIndex === parent;
-                    return isCurrent;
+                    return this.mobilePanelActiveId === current || this.mobileParentIndex === current;
                 }
                 return false;
             },
-            getMobilePanelShowUl(parent,current) {
+            getCloseMenuShow(current) {
                 if(this.mobilePanelActiveId) {
-                    var isCurrent = this.mobilePanelActiveId === current || this.mobileParentIndex === current;
-                    var isParent = this.mobileParentIndex === parent;
+                    var isCurrent = this.mobilePanelActiveId === current;
                     return isCurrent;
                 }
                 return false;
             },
+            backToTopMenu() {
+                this.mobilePanelActiveId = null
+                this.mobileParentIndex = 0
+                this.$nextTick(() => hyva.trapFocus(this.$refs['mobileMenuNavLinks']))
+            }
         }
     }
 </script>
