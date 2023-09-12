@@ -13,8 +13,8 @@
 
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
-use Magento\Framework\View\Element\Template;
 use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
 /** @var Escaper $escaper */
@@ -49,12 +49,15 @@ $menuItems = $block->getParentBlock()->getMenuItems();
         :aria-expanded="open"
         :hidden="open"
     >
-        <?= $heroicons->menuHtml('p-3', 48, 48, [":class" => "{ 'hidden' : open, 'block': !open }", "aria-hidden" => "true"]) ?>
+        <?= $heroicons->menuHtml('p-3', 48, 48, [
+            ":class" => "{ 'hidden' : open, 'block': !open }",
+            "aria-hidden" => "true",
+        ]) ?>
     </button>
     <div
         x-ref="mobileMenuNavLinks"
         class="
-            fixed top-0 right-0 w-full h-full p-1 flex
+            fixed top-0 right-0 w-full h-full pl-1 pr-1 pt-0 flex
             flex-col border-t border-container bg-container-lighter
             overflow-y-auto overflow-x-hidden
         "
@@ -64,9 +67,24 @@ $menuItems = $block->getParentBlock()->getMenuItems();
         aria-modal="true"
     >
         <ul
-            class="border-t flex flex-col gap-y-1 mt-16"
+            class="border-t flex flex-col"
             aria-label="<?= $escaper->escapeHtmlAttr(__('Site navigation links')) ?>"
         >
+            <li class="mobile-action-container flex justify-end text-right min-h-[74px]">
+                <div class="w-full self-end z-0">
+                    <button
+                        @click="closeMenu()"
+                        class="w-16 self-end z-1"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
+                        type="button"
+                    >
+                        <?= $heroicons->xHtml('hidden p-4 text-black', 64, 64, [
+                            ":class" => "{ 'hidden' : !open, 'block': open }",
+                            "aria-hidden" => "true",
+                        ]) ?>
+                    </button>
+                </div>
+            </li>
             <?php foreach ($menuItems as $index => $menuItem): ?>
                 <li
                     data-menu-id="top-level"
@@ -90,20 +108,24 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                         </a>
                         <?php if (!empty($menuItem['childData'])): ?>
                             <button
-                                @click="openSubcategory(0, '<?= /* @noEscape */ $index ?>')"
+                                @click="openSubcategory(0, '<?= /* @noEscape */
+                                $index ?>')"
                                 class="absolute right-0 flex items-center justify-center w-11 h-11 mr-8 cursor-pointer
                                 bg-container-lighter border-container"
-                                aria-label="<?= $escaper->escapeHtmlAttr(__('Open %1 subcategories', $menuItem['name'])) ?>"
+                                aria-label="<?= $escaper->escapeHtmlAttr(__('Open %1 subcategories',
+                                    $menuItem['name'])) ?>"
                                 aria-haspopup="true"
                             >
                                 <div class="w-8 h-8 border rounded">
-                                    <?= $heroicons->chevronRightHtml('w-full h-full p-1', 24, 24, ["aria-hidden" => "true"]) ?>
+                                    <?= $heroicons->chevronRightHtml('w-full h-full p-1',
+                                        24, 24, ["aria-hidden" => "true"]) ?>
                                 </div>
                             </button>
                         <?php endif; ?>
                     </div>
                     <?php if (!empty($menuItem['childData'])): ?>
-                        <?= $block->getLayout()->getBlock('topmenu_multimenu_mobile_childitems')
+                        <?= $block->getLayout()
+                            ->getBlock('topmenu_multimenu_mobile_childitems')
                             ->setData('parent_index', 'top-level')
                             ->setData('menu_index', $index)
                             ->setData('menu_item', $menuItem)
@@ -113,14 +135,6 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                 </li>
             <?php endforeach; ?>
         </ul>
-        <button
-            @click="closeMenu()"
-            class="absolute flex justify-end w-16 self-end mb-1"
-            aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
-            type="button"
-        >
-            <?= $heroicons->xHtml('hidden p-4 text-black', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }", "aria-hidden" => "true"]) ?>
-        </button>
     </div>
 </nav>
 <script>
@@ -165,7 +179,7 @@ $menuItems = $block->getParentBlock()->getMenuItems();
             },
             backToParent(index) {
                 const menuNodeRef = document.querySelector('[data-menu-id=' + index + ']')
-                if(index == 'top-level') {
+                if (index == 'top-level') {
                     this.mobilePanelActiveId = null
                     this.mobileParentIndex = 0
                     this.$nextTick(() => hyva.trapFocus(this.$refs['mobileMenuNavLinks']))
@@ -177,14 +191,14 @@ $menuItems = $block->getParentBlock()->getMenuItems();
                     menuNodeRef.querySelector('a').focus()
                 })
             },
-            getMobilePanelShow(parent,current) {
-                if(this.mobilePanelActiveId) {
+            getMobilePanelShow(parent, current) {
+                if (this.mobilePanelActiveId) {
                     return this.mobilePanelActiveId === current || this.mobileParentIndex === current;
                 }
                 return false;
             },
             getCloseMenuShow(current) {
-                if(this.mobilePanelActiveId) {
+                if (this.mobilePanelActiveId) {
                     var isCurrent = this.mobilePanelActiveId === current;
                     return isCurrent;
                 }

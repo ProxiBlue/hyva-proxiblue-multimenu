@@ -33,10 +33,9 @@ $menuLevel = $block->getMenuLevel();
 <div
     data-menu-id="<?= $escaper->escapeHtmLAttr($index) ?>"
     data-parent-id="<?= $escaper->escapeHtmLAttr($parentIndex) ?>"
-    class="child-menu-container absolute top-0 right-0 z-10 flex flex-col gap-1 w-full h-full p-1 bg-container-lighter"
-    :class="{ 'hidden': getMobilePanelShow('<?= /* @noEscape */
-    (string) $parentIndex ?>', '<?= /* @noEscape */
-    (string) $index ?>') === false }"
+    class="child-menu-container absolute top-0 right-0 z-10 flex flex-col w-full h-full bg-container-lighter
+    <?php if($menuLevel == 1):?> pl-1 pr-1 pt-[1.2px] <?php endif; ?>"
+    :class="{ 'hidden': getMobilePanelShow('<?= /* @noEscape */(string) $parentIndex ?>', '<?= /* @noEscape */(string) $index ?>') === false }"
 >
     <ul
         class="child-menu-container-ul transition-transform duration-200 ease-in-out translate-x-full transform "
@@ -45,42 +44,73 @@ $menuLevel = $block->getMenuLevel();
         (string) $index ?>') === false }"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Subcategories')) ?>"
     >
-        <?php if ($parentIndex == 'top-level'): ?>
-            <li>
-                <button
-                    type="button"
-                    class="flex items-center px-8 py-4 border-b cursor-pointer bg-container border-container w-full"
-                    @click="backToParent('top-level')"
-                    aria-label="<?= $escaper->escapeHtmlAttr(__('Back to top level menu') . $menuItem['name']) ?>"
-                >
-                    <?= $heroicons->chevronLeftHtml('', 24, 24,
-                        ["aria-hidden" => "true"]); ?>
-                    <span class="ml-4">
+        <li class="mobile-action-container grid gap-0 grid-cols-2 grid-rows-1 min-h-[74px]">
+            <div class="back-container">
+                <?php if ($parentIndex == 'top-level'): ?>
+                    <button
+                        type="button"
+                        class="px-8 py-6 cursor-pointer z-1"
+                        @click="backToParent('top-level')"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Back to main menu')) ?>"
+                    >
+                        <?= $heroicons->chevronLeftHtml('inline', 24, 24,
+                            ["aria-hidden" => "true"]); ?>
+                        <span class="ml-4 inline">
                     <?= $escaper->escapeHtmlAttr(__('Back to main menu')) ?>
                 </span>
-                </button>
-            </li>
-        <?php else:
-            $baseMenuItems = $block->getParentBlock()
-                ->getParentBlock()
-                ->getMenuItems();
-            ?>
-            <li>
-                <button
-                    type="button"
-                    class="flex items-center px-8 py-4 border-b cursor-pointer bg-container border-container w-full"
-                    @click="backToParent('<?= /* @noEscape */
-                    $parentIndex ?>')"
-                    aria-label="<?= $escaper->escapeHtmlAttr(__('Back to parent top level') . $menuItem['name']) ?>"
-                >
-                    <?= $heroicons->chevronLeftHtml('', 24, 24,
-                        ["aria-hidden" => "true"]); ?>
-                    <span class="ml-4">
+                    </button>
+                <?php else:
+                    $baseMenuItems = $block->getParentBlock()
+                        ->getParentBlock()
+                        ->getMenuItems();
+                    ?>
+                    <button
+                        type="button"
+                        class="px-8 py-6 cursor-pointer z-1"
+                        @click="backToParent('<?= /* @noEscape */
+                        $parentIndex ?>')"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Back to parent top level') . $menuItem['name']) ?>"
+                    >
+                        <?= $heroicons->chevronLeftHtml('inline', 24, 24,
+                            ["aria-hidden" => "true"]); ?>
+                        <span class="ml-4 inline">
                     <?= $escaper->escapeHtmlAttr(__('Back to ')) ?> <?= $escaper->escapeHtml($baseMenuItems[$parentIndex]['name']) ?>
                 </span>
+                    </button>
+                <?php endif; ?>
+            </div>
+            <div class="action-container text-right">
+                <?php if ($parentIndex != 'top-level'): ?>
+                    <button
+                        @click="backToTopMenu()"
+                        class="inline z-1"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Back to top menu')) ?>"
+                        :class="{ 'hidden': getCloseMenuShow('<?= /* @noEscape */
+                        (string) $index ?>') === false }"
+                    >
+                        <?= $heroicons->chevronDoubleLeftHtml
+                        ('inline mt-1', 24, 24,
+                            [
+                                "aria-hidden" => "true",
+                            ]
+                        );
+                        ?>
+                    </button>
+                <?php endif; ?>
+                <button
+                    @click="closeMenu()"
+                    class="inline z-1"
+                    aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
+                    :class="{ 'hidden': getCloseMenuShow('<?= /* @noEscape */
+                    (string) $index ?>') === false }"
+                >
+                    <?= $heroicons->xHtml('hidden p-4 inline mt-1', 64, 64, [
+                        ":class" => "{ 'hidden' : !open, 'block': open }",
+                        "aria-hidden" => "true",
+                    ]) ?>
                 </button>
-            </li>
-        <?php endif; ?>
+            </div>
+        </li>
         <li class="menu-header border-b text-center pt-4 pb-4">
             <span
                 class="menu-header-text font-bold"><?= $escaper->escapeHtml($menuItem['name']) ?></span>
@@ -135,37 +165,5 @@ $menuLevel = $block->getMenuLevel();
             </li>
         <?php endforeach; ?>
     </ul>
-    <div
-        class="mobile-action-container absolute flex justify-end w-16 self-end mb-1 transition-none">
-        <?php if ($parentIndex != 'top-level'): ?>
-            <button
-                @click="backToTopMenu()"
-                class="inline"
-                aria-label="<?= $escaper->escapeHtmlAttr(__('Back to top menu')) ?>"
-                :class="{ 'hidden': getCloseMenuShow('<?= /* @noEscape */
-                (string) $index ?>') === false }"
-            >
-                <?= $heroicons->chevronDoubleLeftHtml
-                ('inline', 24, 24,
-                    [
-                        "aria-hidden" => "true",
-                    ]
-                );
-                ?>
-            </button>
-        <?php endif; ?>
-        <button
-            @click="closeMenu()"
-            class="inline"
-            aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
-            :class="{ 'hidden': getCloseMenuShow('<?= /* @noEscape */
-            (string) $index ?>') === false }"
-        >
-            <?= $heroicons->xHtml('hidden p-4', 64, 64, [
-                ":class" => "{ 'hidden' : !open, 'block': open }",
-                "aria-hidden" => "true",
-            ]) ?>
-        </button>
-    </div>
 </div>
 
