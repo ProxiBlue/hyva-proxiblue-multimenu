@@ -78,6 +78,16 @@ To note is that the menu will detect the screen width end, and if any slide out 
 
 ![image](https://user-images.githubusercontent.com/4994260/119622849-24d12900-be3a-11eb-8c28-5b2971edf50f.png)
 
+### Mobile (screenshots taken from a base Hyva 1.3 install)
+
+![image](https://github.com/ProxiBlue/hyva-proxiblue-multimenu/assets/4994260/e1479c50-77c8-4d73-9ac5-4cdcc3c25514)
+![image](https://github.com/ProxiBlue/hyva-proxiblue-multimenu/assets/4994260/b32115ee-50c8-464f-a0bf-c3d96aade4ee)
+![image](https://github.com/ProxiBlue/hyva-proxiblue-multimenu/assets/4994260/13a1da17-15fc-4ab1-99d5-da620636f0fd)
+
+On any menu level > 2 two double left chevrons will be next to the X (for close)
+The double chevrons will take person direct back to top level main menu
+
+
 ## Notes
 
 I am not a master on frontend. Much can likely be improved.
