@@ -5,13 +5,10 @@
 The default Hyva menu is a flat 1 level category menu. I needed a multiple depth menu for a site build.
 This is the end result.
 
-Note that as of version 1.5 the mobile menu has been completely changed to a new look/working 
+Note that as of version 1.4 the mobile menu has been completely changed to a new look/working 
 which is more comaptible with mobile devices. The old one was just bed, i'll admit that!
 
-Version was jumped to 1.5 since 1.4 was a pre-release of stalled work to make menu comaptible with snowdog menu editor.
-That is still work that will happen, but I will abandone 1.4 version range.
-
-Note: use the 1.1.9 branch for Hyva 1.1.9+ (< 1.2) compatibility
+Note: use the 1.1.9 branch for Hyva 1.1.9+ (< 1.2) compatibility (version 1.3.11 is latest that supports that range)
 
 ## Install
 
