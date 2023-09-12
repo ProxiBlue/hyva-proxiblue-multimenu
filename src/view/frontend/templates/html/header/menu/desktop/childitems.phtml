@@ -14,6 +14,10 @@ use Magento\Framework\View\Element\Template;
 use Hyva\Theme\Model\ViewModelRegistry;
 use Magento\Framework\Escaper;
 use ProxiBlue\MultiMenu\ViewModel\Image;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+/** @var Heroicons $heroiconsOutline */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
 
 /** @var Template $block */
 /** @var ViewModelRegistry $viewModels */
@@ -26,7 +30,7 @@ $image = $viewModels->require(Image::class);
 ?>
 <ul id="parent-<?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     class="level-<?= $escaper->escapeHtmlAttr($block->getChildLevel()); ?>
-    bg-white border rounded-sm absolute transition duration-150 ease-in-out
+    bg-white border rounded-sm absolute duration-0 ease-in-out
 min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeHtmlAttr($parentData['id']); ?>"
     style="z-index:0"
 >
@@ -37,18 +41,6 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                 <button @mouseenter.debounce="checkSlideDirection($event)"
                         id="hover-<?= $escaper->escapeHtmlAttr($subMenuIndex) ?>"
                         class="w-full text-left flex items-center outline-none focus:outline-none <?= $escaper->escapeHtmlAttr($subMenuIndex) ?>">
-                    <span class="lg:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="sub-indicator w-4 h-4 mr-1 mb-1"
-                             viewBox="0 0 20 20"
-                             fill="currentColor">
-                    <path fill-rule="evenodd"
-                          d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                          clip-rule="evenodd"/>
-                    <path fill-rule="evenodd"
-                          d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                          clip-rule="evenodd"/>
-                </svg>
-                    </span>
                     <?php if ($block->getShowIcons()): ?>
                         <img loading="lazy" width="20" height="20" class="inline"
                              src="<?php echo $image->resize($subMenuItem['image'], 20); ?>"
@@ -65,20 +57,16 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                                             </span>
                     <?php if (!empty($subMenuItem['childData'])): ?>
                         <span class="mr-auto">
-                                      <svg class="fill-current h-4 w-4 transition duration-150 ease-in-out control"
-                                           xmlns="http://www.w3.org/2000/svg"
-                                           viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                      </svg>
+                            <?= $heroicons->chevronLeftHtml('fill-current h-4 w-4 transform transition duration-0 ease-in-out control',
+    24, 24, ["aria-hidden" => "true"]) ?>
 
-                                    </span>
+                        </span>
                     <?php endif; ?>
                 </button>
                 <?php if (!empty($subMenuItem['childData'])): ?>
                     <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop_childitems')
                         ->setData('parent_data', $subMenuItem)
-                        ->setData('child_css', 'top-0 right-0 origin-top-left')
+                        ->setData('child_css', 'top-0 right-0 origin-top-left translate-x-full scale-0')
                         ->setData('child_level', $block->getChildLevel() + 1)
                         ->toHtml(); ?>
                 <?php endif; ?>

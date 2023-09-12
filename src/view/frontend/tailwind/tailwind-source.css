@@ -1,2 +1,19 @@
-@import "components/desktop.css";
-@import "components/doesnotexist.css";
+.page-header {
+    .nav-desktop {
+        li {
+            &:hover {
+                > ul.slide-to-right {
+                    @apply translate-x-full scale-100
+                }
+                > ul.slide-to-left {
+                    @apply scale-100 z-50 text-left;
+                }
+                button {
+                    svg {
+                        @apply rotate-180;
+                    }
+                }
+            }
+        }
+    }
+}

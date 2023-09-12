@@ -10,23 +10,22 @@
  *
  */
 
-use Hyva\Theme\Model\ViewModelRegistry;
-use Hyva\Theme\ViewModel\HeroiconsSolid;
-use Magento\Framework\View\Element\Template;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
 use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
 /** @var Escaper $escaper */
 
-/** @var HeroiconsSolid $heroiconsSolid */
-$heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
+/** @var Heroicons $heroiconsOutline */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
 
 // Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
 $menuItems = $block->getParentBlock()->getMenuItems();
 $uniqueId = '_' . uniqid();
 
 ?>
-<div id="nav-desktop" x-data="initMenu<?= $uniqueId = '_' . uniqid();?>()"
+<div id="nav-desktop" x-data="initMenu<?= $uniqueId = '_' . uniqid(); ?>()"
      class="z-20 order-2 sm:order-1 lg:order-2 navigation hidden lg:flex"
 >
     <!-- desktop -->
@@ -34,14 +33,14 @@ $uniqueId = '_' . uniqid();
          @load.window="setActiveMenu($el)"
          class="hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
         <nav id="nav-desktop-container"
-            class="nav-desktop w-full duration-150 ease-in-out transform flex justify-start
+             class="nav-desktop w-full duration-0 ease-in-out transform flex justify-start
             w-auto relative min-h-0 transition-display"
         >
             <?php foreach ($menuItems as $index => $menuItem): ?>
                 <div class="group group-<?= /* @noEscape */
-                (string)$index ?>">
+                (string) $index ?>">
                     <button
-                        @click="initMenu.hoverPanelActiveId = '<?= (string)$index ?>'"
+                        @click="initMenu.hoverPanelActiveId = '<?= (string) $index ?>'"
                         class="uppercase border-none bg-transparent outline-none focus:outline-none border px-3 py-1 h-10 rounded-sm flex items-center min-w-32 hover:bg-secondary-darker"
                     >
                         <span class="pr-1 font-normal flex-1">
@@ -53,18 +52,17 @@ $uniqueId = '_' . uniqid();
                         </span>
                         <?php if (!empty($menuItem['childData'])): ?>
                             <span>
-                      <svg
-                          class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out control"
-                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                      </svg>
-                    </span>
+                                <?= $heroicons->chevronDownHtml('fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-0 ease-in-out control',
+                                    24, 24, ["aria-hidden" => "true"]) ?>
+                            </span>
                         <?php endif; ?>
                     </button>
                     <?php if (!empty($menuItem['childData'])): ?>
-                        <?= $block->getLayout()->getBlock('topmenu_multimenu_desktop_childitems')
+                        <?= $block->getLayout()
+                            ->getBlock('topmenu_multimenu_desktop_childitems')
                             ->setData('parent_data', $menuItem)
-                            ->setData('child_css', 'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
+                            ->setData('child_css',
+                                'border-t-0 transform scale-0 group-hover:scale-100 origin-top')
                             ->setData('child_level', 1)
                             ->setData('show_icons', $block->getShowIcons())
                             ->toHtml(); ?>
