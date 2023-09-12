@@ -5,7 +5,7 @@
     "type": "magento2-module",
     "require": {
         "magento/framework": "*",
-        "hyva-themes/magento2-theme-module": "~1.1"
+        "hyva-themes/magento2-theme-module": "<1.2"
     },
     "license": "MIT",
     "authors": [
