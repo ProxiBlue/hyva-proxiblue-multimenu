@@ -1,5 +1,14 @@
 # Hyva Compatible Multi Depth Menu based on category structure
 
+## To be abandoned.
+
+Note that I plan to abandone this module in favour of the snowdog multi-menu, which now natively
+supports Hyva out the box with functional menus.
+
+This modulke served it's purpose for a site that needed basic multi-depth menus, which the snowdog menu also now supports.
+
+ref: https://github.com/SnowdogApps/magento2-menu
+
 ## Introduction
 
 The default Hyva menu is a flat 1 level category menu. I needed a multiple depth menu for a site build.
