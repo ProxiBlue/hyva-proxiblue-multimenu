@@ -5,7 +5,8 @@
 Note that I plan to abandone this module in favour of the snowdog multi-menu, which now natively
 supports Hyva out the box with functional menus.
 
-This modulke served it's purpose for a site that needed basic multi-depth menus, which the snowdog menu also now supports.
+This module served it's purpose for a site that needed basic multi-depth menus, right at the start, back when Hyva was just released, and nothing existed.
+The snowdog menu is more feature rich.
 
 ref: https://github.com/SnowdogApps/magento2-menu
 
