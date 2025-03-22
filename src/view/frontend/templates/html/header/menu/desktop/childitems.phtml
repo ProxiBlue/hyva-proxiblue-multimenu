@@ -92,7 +92,7 @@ min-w-32 mt-0 mr-0 pb-2 pt-2 <?= $block->getChildCss(); ?> <?= $escaper->escapeH
                 <?php endif; ?>
                 <a href="<?= $escaper->escapeHtml($subMenuItem['url']) ?>"
                    title="<?= $escaper->escapeHtml($subMenuItem['name']) ?>"
-                   class="inline block w-full whitespace-nowrap first:mt-0 hover:underline pr-2"><?= $escaper->escapeHtml($subMenuItem['name']) ?></a>
+                   class="block w-full whitespace-nowrap first:mt-0 hover:underline pr-2"><?= $escaper->escapeHtml($subMenuItem['name']) ?></a>
             </li>
         <?php endif; ?>
     <?php endforeach; ?>
